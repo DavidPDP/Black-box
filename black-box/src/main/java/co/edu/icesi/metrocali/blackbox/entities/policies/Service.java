@@ -10,9 +10,9 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="t_002_services")
-@NamedQuery(name="T002Service.findAll", query="SELECT t FROM T002Service t")
-public class T002Service implements Serializable {
+@Table(name="t_002_services", schema="policies")
+@NamedQuery(name="Service.findAll", query="SELECT t FROM Service t")
+public class Service implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,7 +27,7 @@ public class T002Service implements Serializable {
 
 	private String uri;
 
-	//bi-directional many-to-many association to T002Role
+	//bi-directional many-to-many association to Role
 	@ManyToMany
 	@JoinTable(
 		name="t_002_permissions"
@@ -38,9 +38,9 @@ public class T002Service implements Serializable {
 			@JoinColumn(name="role")
 			}
 		)
-	private List<T002Role> t002Roles;
+	private List<Role> Roles;
 
-	public T002Service() {
+	public Service() {
 	}
 
 	public Integer getId() {
@@ -83,12 +83,12 @@ public class T002Service implements Serializable {
 		this.uri = uri;
 	}
 
-	public List<T002Role> getT002Roles() {
-		return this.t002Roles;
+	public List<Role> getRoles() {
+		return this.Roles;
 	}
 
-	public void setT002Roles(List<T002Role> t002Roles) {
-		this.t002Roles = t002Roles;
+	public void setRoles(List<Role> Roles) {
+		this.Roles = Roles;
 	}
 
 }

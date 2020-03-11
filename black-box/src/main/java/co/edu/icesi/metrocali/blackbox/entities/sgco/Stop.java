@@ -9,9 +9,9 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="t_001_stops")
-@NamedQuery(name="T001Stop.findAll", query="SELECT t FROM T001Stop t")
-public class T001Stop implements Serializable {
+@Table(name="t_001_stops", schema="sgco")
+@NamedQuery(name="Stop.findAll", query="SELECT t FROM Stop t")
+public class Stop implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,7 +33,7 @@ public class T001Stop implements Serializable {
 
 	private String shortname;
 
-	public T001Stop() {
+	public Stop() {
 	}
 
 	public Long getStopid() {

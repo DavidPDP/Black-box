@@ -8,7 +8,7 @@ import javax.persistence.*;
  * 
  */
 @Embeddable
-public class T002EventsTrackPK implements Serializable {
+public class EventsTrackPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class T002EventsTrackPK implements Serializable {
 
 	private Long id;
 
-	public T002EventsTrackPK() {
+	public EventsTrackPK() {
 	}
 	public Long getEvent() {
 		return this.event;
@@ -54,10 +54,10 @@ public class T002EventsTrackPK implements Serializable {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof T002EventsTrackPK)) {
+		if (!(other instanceof EventsTrackPK)) {
 			return false;
 		}
-		T002EventsTrackPK castOther = (T002EventsTrackPK)other;
+		EventsTrackPK castOther = (EventsTrackPK)other;
 		return 
 			this.event.equals(castOther.event)
 			&& this.state.equals(castOther.state)

@@ -10,9 +10,9 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="t_001_calendars")
-@NamedQuery(name="T001Calendar.findAll", query="SELECT t FROM T001Calendar t")
-public class T001Calendar implements Serializable {
+@Table(name="t_001_calendars", schema="sgco")
+@NamedQuery(name="Calendar.findAll", query="SELECT t FROM Calendar t")
+public class Calendar implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -24,7 +24,7 @@ public class T001Calendar implements Serializable {
 
 	private Long scheduletypeid;
 
-	public T001Calendar() {
+	public Calendar() {
 	}
 
 	public Long getCalendarid() {

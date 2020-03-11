@@ -9,9 +9,9 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="t_001_tasks")
-@NamedQuery(name="T001Task.findAll", query="SELECT t FROM T001Task t")
-public class T001Task implements Serializable {
+@Table(name="t_001_tasks", schema="sgco")
+@NamedQuery(name="Task.findAll", query="SELECT t FROM Task t")
+public class Task implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -24,7 +24,7 @@ public class T001Task implements Serializable {
 
 	private Long scheduletypeid;
 
-	public T001Task() {
+	public Task() {
 	}
 
 	public Long getTaskid() {

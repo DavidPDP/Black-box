@@ -10,9 +10,9 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="t_002_settings")
-@NamedQuery(name="T002Setting.findAll", query="SELECT t FROM T002Setting t")
-public class T002Setting implements Serializable {
+@Table(name="t_002_settings", schema="policies")
+@NamedQuery(name="Setting.findAll", query="SELECT t FROM Setting t")
+public class Setting implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -28,12 +28,12 @@ public class T002Setting implements Serializable {
 
 	private String version;
 
-	//bi-directional many-to-one association to T002User
+	//bi-directional many-to-one association to User
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="creator")
-	private T002User t002User;
+	private User User;
 
-	public T002Setting() {
+	public Setting() {
 	}
 
 	public Integer getId() {
@@ -84,12 +84,12 @@ public class T002Setting implements Serializable {
 		this.version = version;
 	}
 
-	public T002User getT002User() {
-		return this.t002User;
+	public User getUser() {
+		return this.User;
 	}
 
-	public void setT002User(T002User t002User) {
-		this.t002User = t002User;
+	public void setUser(User User) {
+		this.User = User;
 	}
 
 }

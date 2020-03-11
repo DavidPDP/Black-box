@@ -10,35 +10,35 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="t_002_users_remarks")
-@NamedQuery(name="T002UsersRemark.findAll", query="SELECT t FROM T002UsersRemark t")
-public class T002UsersRemark implements Serializable {
+@Table(name="t_002_users_remarks", schema="event_managment")
+@NamedQuery(name="UsersRemark.findAll", query="SELECT t FROM UsersRemark t")
+public class UsersRemark implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private T002UsersRemarkPK id;
+	private UsersRemarkPK id;
 
 	private String content;
 
 	private Timestamp creation;
 
-	//bi-directional many-to-one association to T002UsersTrack
+	//bi-directional many-to-one association to UsersTrack
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumns({
 		@JoinColumn(name="owner", referencedColumnName="owner"),
 		@JoinColumn(name="state", referencedColumnName="state"),
 		@JoinColumn(name="track", referencedColumnName="id")
 		})
-	private T002UsersTrack t002UsersTrack;
+	private UsersTrack UsersTrack;
 
-	public T002UsersRemark() {
+	public UsersRemark() {
 	}
 
-	public T002UsersRemarkPK getId() {
+	public UsersRemarkPK getId() {
 		return this.id;
 	}
 
-	public void setId(T002UsersRemarkPK id) {
+	public void setId(UsersRemarkPK id) {
 		this.id = id;
 	}
 
@@ -58,12 +58,12 @@ public class T002UsersRemark implements Serializable {
 		this.creation = creation;
 	}
 
-	public T002UsersTrack getT002UsersTrack() {
-		return this.t002UsersTrack;
+	public UsersTrack getUsersTrack() {
+		return this.UsersTrack;
 	}
 
-	public void setT002UsersTrack(T002UsersTrack t002UsersTrack) {
-		this.t002UsersTrack = t002UsersTrack;
+	public void setUsersTrack(UsersTrack UsersTrack) {
+		this.UsersTrack = UsersTrack;
 	}
 
 }

@@ -10,9 +10,9 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="t_001_trips")
-@NamedQuery(name="T001Trip.findAll", query="SELECT t FROM T001Trip t")
-public class T001Trip implements Serializable {
+@Table(name="t_001_trips", schema="sgco")
+@NamedQuery(name="Trip.findAll", query="SELECT t FROM Trip t")
+public class Trip implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -46,7 +46,7 @@ public class T001Trip implements Serializable {
 
 	private Long triptypeid;
 
-	public T001Trip() {
+	public Trip() {
 	}
 
 	public Long getTripid() {

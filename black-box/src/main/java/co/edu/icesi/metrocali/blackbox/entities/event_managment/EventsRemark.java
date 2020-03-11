@@ -2,6 +2,9 @@ package co.edu.icesi.metrocali.blackbox.entities.event_managment;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import co.edu.icesi.metrocali.blackbox.entities.policies.User;
+
 import java.sql.Timestamp;
 
 
@@ -10,19 +13,19 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="t_002_events_remarks")
-@NamedQuery(name="T002EventsRemark.findAll", query="SELECT t FROM T002EventsRemark t")
-public class T002EventsRemark implements Serializable {
+@Table(name="t_002_events_remarks" , schema="event_managment")
+@NamedQuery(name="EventsRemark.findAll", query="SELECT t FROM EventsRemark t")
+public class EventsRemark implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private T002EventsRemarkPK id;
+	private EventsRemarkPK id;
 
 	private String content;
 
 	private Timestamp creation;
 
-	//bi-directional many-to-one association to T002EventsTrack
+	//bi-directional many-to-one association to EventsTrack
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumns({
 		@JoinColumn(name="event", referencedColumnName="event"),
@@ -30,16 +33,20 @@ public class T002EventsRemark implements Serializable {
 		@JoinColumn(name="state", referencedColumnName="state"),
 		@JoinColumn(name="track", referencedColumnName="id")
 		})
-	private T002EventsTrack t002EventsTrack;
+	private EventsTrack EventsTrack;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="author")
+	private User author;
 
-	public T002EventsRemark() {
+	public EventsRemark() {
 	}
 
-	public T002EventsRemarkPK getId() {
+	public EventsRemarkPK getId() {
 		return this.id;
 	}
 
-	public void setId(T002EventsRemarkPK id) {
+	public void setId(EventsRemarkPK id) {
 		this.id = id;
 	}
 
@@ -59,12 +66,12 @@ public class T002EventsRemark implements Serializable {
 		this.creation = creation;
 	}
 
-	public T002EventsTrack getT002EventsTrack() {
-		return this.t002EventsTrack;
+	public EventsTrack getEventsTrack() {
+		return this.EventsTrack;
 	}
 
-	public void setT002EventsTrack(T002EventsTrack t002EventsTrack) {
-		this.t002EventsTrack = t002EventsTrack;
+	public void setEventsTrack(EventsTrack EventsTrack) {
+		this.EventsTrack = EventsTrack;
 	}
 
 }

@@ -10,9 +10,9 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="t_001_linestops")
-@NamedQuery(name="T001Linestop.findAll", query="SELECT t FROM T001Linestop t")
-public class T001Linestop implements Serializable {
+@Table(name="t_001_linestops", schema="sgco")
+@NamedQuery(name="Linestop.findAll", query="SELECT t FROM Linestop t")
+public class Linestop implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,7 +34,7 @@ public class T001Linestop implements Serializable {
 
 	private Long stopsequence;
 
-	public T001Linestop() {
+	public Linestop() {
 	}
 
 	public Long getLinestopid() {

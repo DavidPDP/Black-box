@@ -4,23 +4,23 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * The primary key class for the t_002_protocols database table.
+ * The primary key class for the t_002_users_track database table.
  * 
  */
 @Embeddable
-public class T002ProtocolPK implements Serializable {
+public class UsersTrackPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 
 	@Column(insertable=false, updatable=false)
-	private Integer category;
+	private Integer state;
 
 	@Column(insertable=false, updatable=false)
-	private Integer step;
+	private Integer owner;
 
-	public T002ProtocolPK() {
+	public UsersTrackPK() {
 	}
 	public Integer getId() {
 		return this.id;
@@ -28,39 +28,39 @@ public class T002ProtocolPK implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getCategory() {
-		return this.category;
+	public Integer getState() {
+		return this.state;
 	}
-	public void setCategory(Integer category) {
-		this.category = category;
+	public void setState(Integer state) {
+		this.state = state;
 	}
-	public Integer getStep() {
-		return this.step;
+	public Integer getOwner() {
+		return this.owner;
 	}
-	public void setStep(Integer step) {
-		this.step = step;
+	public void setOwner(Integer owner) {
+		this.owner = owner;
 	}
 
 	public boolean equals(Object other) {
 		if (this == other) {
 			return true;
 		}
-		if (!(other instanceof T002ProtocolPK)) {
+		if (!(other instanceof UsersTrackPK)) {
 			return false;
 		}
-		T002ProtocolPK castOther = (T002ProtocolPK)other;
+		UsersTrackPK castOther = (UsersTrackPK)other;
 		return 
 			this.id.equals(castOther.id)
-			&& this.category.equals(castOther.category)
-			&& this.step.equals(castOther.step);
+			&& this.state.equals(castOther.state)
+			&& this.owner.equals(castOther.owner);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + this.id.hashCode();
-		hash = hash * prime + this.category.hashCode();
-		hash = hash * prime + this.step.hashCode();
+		hash = hash * prime + this.state.hashCode();
+		hash = hash * prime + this.owner.hashCode();
 		
 		return hash;
 	}

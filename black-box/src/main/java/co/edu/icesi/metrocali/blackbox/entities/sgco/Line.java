@@ -5,17 +5,17 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the t_001_scheduletypes database table.
+ * The persistent class for the t_001_lines database table.
  * 
  */
 @Entity
-@Table(name="t_001_scheduletypes")
-@NamedQuery(name="T001Scheduletype.findAll", query="SELECT t FROM T001Scheduletype t")
-public class T001Scheduletype implements Serializable {
+@Table(name="t_001_lines", schema="sgco")
+@NamedQuery(name="Line.findAll", query="SELECT t FROM Line t")
+public class Line implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Long scheduletypeid;
+	private Long lineid;
 
 	private String description;
 
@@ -23,15 +23,15 @@ public class T001Scheduletype implements Serializable {
 
 	private String shortname;
 
-	public T001Scheduletype() {
+	public Line() {
 	}
 
-	public Long getScheduletypeid() {
-		return this.scheduletypeid;
+	public Long getLineid() {
+		return this.lineid;
 	}
 
-	public void setScheduletypeid(Long scheduletypeid) {
-		this.scheduletypeid = scheduletypeid;
+	public void setLineid(Long lineid) {
+		this.lineid = lineid;
 	}
 
 	public String getDescription() {
