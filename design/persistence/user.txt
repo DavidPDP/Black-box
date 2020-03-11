@@ -1,0 +1,5 @@
+$ sudo -u postgres psql
+postgres# create user "black-box" with password 'blackboxp';
+postgres# create database aviom;
+postgres# grant all privileges on database aviom to "black-box";
+$ psql -U "black-box" -d aviom
