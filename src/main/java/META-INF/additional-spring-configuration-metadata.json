@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "spring.datasource.events.hibernate.dialect",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.events.hibernate.dialect'"
+  },
+  {
+    "name": "mom.aviom.output.queues",
+    "type": "java.lang.String",
+    "description": "A description for 'mom.aviom.output.queues'"
+  },
+  {
+    "name": "mom.aviom.input.queues.access",
+    "type": "java.lang.String",
+    "description": "A description for 'mom.aviom.input.queues.access'"
+  }
+]}
