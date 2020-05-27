@@ -15,10 +15,10 @@ public class BlackBoxApplication {
 	//private AccessQuery query;
 	
 	public static void main(String[] args) {
+		//ConfigurableApplicationContext ctx = 
 		SpringApplication.run(BlackBoxApplication.class, args);
 		//BlackBoxApplication t = ctx.getBean(BlackBoxApplication.class);
 		//t.test();
-		
 	}
 
 //	public void test() {

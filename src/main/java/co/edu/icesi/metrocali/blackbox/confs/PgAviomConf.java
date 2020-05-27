@@ -18,10 +18,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"co.edu.icesi.metrocali.blackbox.repositories.policies",
-		"co.edu.icesi.metrocali.blackbox.repositories.events"}, 
-		entityManagerFactoryRef = "eventsEntityManager", 
-		transactionManagerRef = "eventsTransactionManager")
+@EnableJpaRepositories(basePackages = {"co.edu.icesi.metrocali.blackbox.repositories.policies"}, entityManagerFactoryRef = "eventsEntityManager", transactionManagerRef = "eventsTransactionManager")
 public class PgAviomConf {
 
 	@Bean
