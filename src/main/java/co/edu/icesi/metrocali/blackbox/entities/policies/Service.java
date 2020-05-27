@@ -1,50 +1,43 @@
 package co.edu.icesi.metrocali.blackbox.entities.policies;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
 
+//TODO this class must be restated depending on the granularity of the authorization.
 @Entity
 @Table(name="t_002_services", schema="policies")
 @Getter
 @Setter
-public class Service implements Serializable {
+public class Service {
 	
-	private static final long serialVersionUID = 6250455060050872391L;
-
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private Integer id;
 
 	@Column(name="is_internal")
 	private Boolean isInternal;
 
+	@Column(name="name")
 	private String name;
 
+	@Column(name="protocol")
 	private String protocol;
 
+	@Column(name="uri")
 	private String uri;
 
-	@ManyToMany(cascade = {
-	    CascadeType.PERSIST,
-	    CascadeType.MERGE
-	})
-	@JoinTable(
-		schema="policies",
-		name="t_002_permissions",
-		joinColumns=@JoinColumn(name="service"),
-		inverseJoinColumns=@JoinColumn(name="role")
-	)
-	private List<Role> roles;
+//	@ManyToMany(mappedBy = "services", fetch= FetchType.LAZY)
+//	@JsonBackReference("ssr1")
+//	@JsonManagedReference("ssr1")
+//	@JsonInclude(value=Include.NON_NULL)
+//	private List<Role> roles;
 
 }
