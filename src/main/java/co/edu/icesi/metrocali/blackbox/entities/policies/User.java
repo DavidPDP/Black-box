@@ -1,38 +1,49 @@
 package co.edu.icesi.metrocali.blackbox.entities.policies;
 
-import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Table(name="t_002_users", schema="policies")
-@Getter
-@Setter
-public class User implements Serializable {
+@Getter @Setter
+public class User {
 	
-	private static final long serialVersionUID = 4013208759001158845L;
-
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Integer id;
 
-	@Column(name="account_name")
+	@Column(name = "account_name")
 	private String accountName;
 
-	@Column(name="is_active")
-	private Boolean isActive;
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name="last_name")
+	private String lastName;
 
+	@Column(name="password")
 	private String password;
-
-	@OneToMany(mappedBy="user")
-	private List<Setting> settings;
-
+	
 	@ManyToMany(cascade = {
 	    CascadeType.PERSIST,
-	    CascadeType.MERGE
+	    CascadeType.REMOVE
 	})
 	@JoinTable(
 		schema="policies",
@@ -41,17 +52,5 @@ public class User implements Serializable {
 		inverseJoinColumns=@JoinColumn(name="role")
 	)
 	private List<Role> roles;
-
-	public Setting addSetting(Setting setting) {
-		getSettings().add(setting);
-		setting.setUser(this);
-		return setting;
-	}
-
-	public Setting removeSetting(Setting setting) {
-		getSettings().remove(setting);
-		setting.setUser(null);
-		return setting;
-	}
-
+	
 }

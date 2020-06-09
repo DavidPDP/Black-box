@@ -18,7 +18,13 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"co.edu.icesi.metrocali.blackbox.repositories.policies"}, entityManagerFactoryRef = "eventsEntityManager", transactionManagerRef = "eventsTransactionManager")
+@EnableJpaRepositories(
+	basePackages = {"co.edu.icesi.metrocali.blackbox.repositories.policies",
+	"co.edu.icesi.metrocali.blackbox.repositories.events"
+	}, 
+	entityManagerFactoryRef = "eventsEntityManager", 
+	transactionManagerRef = "eventsTransactionManager"
+)
 public class PgAviomConf {
 
 	@Bean
@@ -42,8 +48,10 @@ public class PgAviomConf {
 		properties.put("hibernate.hbm2ddl.auto", "none");
 		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		return builder.dataSource(dataSource).properties(properties)
-				.packages("co.edu.icesi.metrocali.blackbox.entities.policies",
-						"co.edu.icesi.metrocali.blackbox.entities.event_managment").persistenceUnit("events").build();
+			.packages(
+				"co.edu.icesi.metrocali.blackbox.entities.policies",
+				"co.edu.icesi.metrocali.blackbox.entities.event_managment"
+			).persistenceUnit("events").build();
 	}
 
 	@Bean

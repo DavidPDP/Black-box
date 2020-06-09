@@ -1,6 +1,4 @@
-package co.edu.icesi.metrocali.blackbox.entities.policies;
-
-import java.sql.Timestamp;
+package co.edu.icesi.metrocali.blackbox.entities.event_managment;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,32 +13,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="t_002_settings", schema="policies")
+@Table(name="t_002_states", schema="event_managment")
 @Getter @Setter
-public class Setting {
-	
+public class State {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private Integer id;
-	
-	@Column(name="creation")
-	private Timestamp creation;
 
-	@Column(name="key")
-	private String key;
-
-	@Column(name="type")
-	private String type;
-
-	@Column(name="value")
-	private String value;
-
-	@Column(name="version")
-	private String version;
+	@Column(name="name")
+	private String name;
 
 	@ManyToOne
-	@JoinColumn(name = "creator")
-	private User user;
+	@JoinColumn(name="state_type")
+	private StateType stateType;
 
 }
