@@ -40,7 +40,7 @@ public class Setting {
 	private String version;
 
 	@ManyToOne
-	@JoinColumn(name = "creator")
+	@JoinColumn(name="creator")
 	private User user;
 
 }

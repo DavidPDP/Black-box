@@ -13,8 +13,7 @@ import lombok.Setter;
 //TODO this class must be restated depending on the granularity of the authorization.
 @Entity
 @Table(name="t_002_services", schema="policies")
-@Getter
-@Setter
+@Getter @Setter
 public class Service {
 	
 	@Id

@@ -18,6 +18,8 @@ public interface UsersRepository extends CrudRepository<User, Integer> {
 	@Override
 	public List<User> findAll();
 	
+	public List<User> findByRoles_Name(String name);
+	
 	public Optional<User> findByAccountName(String accountName);
 	
 	@Transactional
@@ -37,5 +39,6 @@ public interface UsersRepository extends CrudRepository<User, Integer> {
 			"where s.name <> 'Offline' and r.name = 'Controller'", 
 			nativeQuery = true)
 	public List<User> findAllOnlineControllers();
-	//---------------------------------------------
+	//---------------------------------------------	
+	
 }

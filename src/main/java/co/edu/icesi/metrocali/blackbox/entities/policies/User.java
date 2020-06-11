@@ -23,16 +23,16 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name="id")
 	private Integer id;
 
-	@Column(name = "account_name")
+	@Column(name="account_name")
 	private String accountName;
 
-	@Column(name = "email")
+	@Column(name="email")
 	private String email;
 	
-	@Column(name = "name")
+	@Column(name="name")
 	private String name;
 	
 	@Column(name="last_name")

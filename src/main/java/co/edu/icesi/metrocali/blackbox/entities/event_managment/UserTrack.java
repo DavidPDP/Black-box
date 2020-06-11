@@ -3,9 +3,9 @@ package co.edu.icesi.metrocali.blackbox.entities.event_managment;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,15 +36,15 @@ public class UserTrack {
 	@Column(name="start_time")
 	private Timestamp startTime;
 
-	@OneToMany(mappedBy="usersTrack")
+	@OneToMany(mappedBy="usersTrack", cascade=CascadeType.ALL)
 	@JsonManagedReference("user_track-user_remark")
 	private List<UserRemark> usersRemarks;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="owner")
 	private User user;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="state")
 	private State state;
 

@@ -1,6 +1,9 @@
 package co.edu.icesi.metrocali.blackbox.api.event_managment;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -17,18 +20,18 @@ import co.edu.icesi.metrocali.blackbox.repositories.events.EventsRepository;
 
 @RestController
 @RequestMapping("/event_managment/events")
-public class EventsController {
+public class HTTPRestEventsAPI {
 
 	private EventsRepository eventsRepository;
 	
-	public EventsController(EventsRepository eventsRepository) {
+	public HTTPRestEventsAPI(EventsRepository eventsRepository) {
 		this.eventsRepository = eventsRepository;
 	}
 	
-	@GetMapping("/lasted")
-	public ResponseEntity<List<Event>> retrieveLastEvents(
-			@NonNull @RequestParam String interval) {
-		System.out.println(interval);
+	@GetMapping
+	public ResponseEntity<List<Event>> retrieveAll(
+			@RequestParam @NotBlank String interval) {
+
 		List<Event> events = eventsRepository.findLastEvents(interval);
 
 		if(events != null && !events.isEmpty()) {
@@ -39,11 +42,28 @@ public class EventsController {
 		
 	}
 	
+	@GetMapping("/{code}")
+	public ResponseEntity<Event> retrieve(
+			@PathVariable @NotBlank String code) {
+		
+		Optional<Event> event = eventsRepository.findByCode(code);
+		
+		if(event.isPresent()) {
+			return ResponseEntity.ok(event.get());
+		}else {
+			return ResponseEntity.notFound().build();
+		}
+		
+	}
+	
 	@PostMapping
 	public ResponseEntity<Event> saveEvent(
 			@RequestBody @NonNull Event event){
+		System.out.println("P1: " + event.toString());
 		Event savedEvent = eventsRepository.save(event);
+		System.out.println("P2: " + event.toString());
 		return ResponseEntity.ok(savedEvent);
+		
 	}
 		
 }

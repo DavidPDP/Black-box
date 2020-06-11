@@ -56,12 +56,24 @@ public class Event {
 	@JoinColumn(name="category")
 	private Category category;
 
-	@OneToMany(mappedBy="event", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="event", cascade=CascadeType.ALL, orphanRemoval=true)
 	@JsonManagedReference("event-event_track")
 	private List<EventTrack> eventsTracks;
 	
-	@OneToMany(mappedBy="event", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="event", cascade=CascadeType.ALL, orphanRemoval=true)
 	@JsonManagedReference("event-protocol_track")
 	private List<ProtocolTrack> protocolTracks;
 
+public String toString() {
+		
+		String text = "";
+		
+		for (EventTrack eventTrack : eventsTracks) {
+			text += "[id: " + eventTrack.getId() + " code: " + 
+				eventTrack.getCode() + "]";
+		}
+		
+		return text;
+	}
+	
 }

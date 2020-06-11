@@ -3,8 +3,11 @@ package co.edu.icesi.metrocali.blackbox.api.policies;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,16 +21,16 @@ import co.edu.icesi.metrocali.blackbox.repositories.policies.RolesRepository;
 
 @RestController
 @RequestMapping("/policies/roles")
-public class RolesController {
+public class HTTPRestRolesAPI {
 	
 	private RolesRepository rolesRepository;
 	
-	public RolesController(RolesRepository rolesRepository) {
+	public HTTPRestRolesAPI(RolesRepository rolesRepository) {
 		this.rolesRepository = rolesRepository;
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Role>> retrieveAllRoles(){
+	public ResponseEntity<List<Role>> retrieveAll(){
 		
 		List<Role> roles = rolesRepository.findAll();
 		
@@ -39,21 +42,9 @@ public class RolesController {
 		
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Role> retrieveRole(@PathVariable int id) {
-		
-		Optional<Role> role = rolesRepository.findById(id);
-		
-		if(role.isPresent()) {
-			return ResponseEntity.ok(role.get());
-		}else {
-			return ResponseEntity.notFound().build();
-		}
-		
-	}
-	
-	@GetMapping("/names/{name}")
-	public ResponseEntity<Role> retrieveRole(@PathVariable String name) {
+	@GetMapping("/{name}")
+	public ResponseEntity<Role> retrieve(
+			@PathVariable @NotBlank String name) {
 		
 		Optional<Role> role = rolesRepository.findByName(name);
 		
@@ -66,21 +57,17 @@ public class RolesController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<HttpStatus> saveRole(@RequestBody Role role) {
-		
-		try {
-			
-			rolesRepository.save(role);
-			return ResponseEntity.ok().build();
-			
-		}catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-		}
+	public ResponseEntity<Role> save(
+			@RequestBody @NonNull Role role) {
+					
+		Role persistedRole = rolesRepository.save(role);
+		return ResponseEntity.ok(persistedRole);
 		
 	}
 	
 	@DeleteMapping("/{name}")
-	public ResponseEntity<HttpStatus> deleteRole(@PathVariable String name) {
+	public ResponseEntity<HttpStatus> delete(
+			@PathVariable @NotBlank String name) {
 		
 		rolesRepository.deleteByName(name);
 		return ResponseEntity.ok().build();

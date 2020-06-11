@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +34,6 @@ public class Category {
 	private Integer id;
 
 	@Column(name="base_priority")
-	@JsonProperty("base_priority")
 	private Integer basePriority;
 
 	@Column(name="name")

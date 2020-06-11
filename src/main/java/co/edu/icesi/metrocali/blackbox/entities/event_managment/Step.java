@@ -1,6 +1,5 @@
 package co.edu.icesi.metrocali.blackbox.entities.event_managment;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +25,7 @@ public class Step {
 	@Column(name="description")
 	private String description;
 
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="step_type")
 	private StepType stepType;
 

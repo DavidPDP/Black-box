@@ -8,17 +8,16 @@ import javax.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import co.edu.icesi.metrocali.blackbox.entities.event_managment.Category;
+import co.edu.icesi.metrocali.blackbox.entities.event_managment.Step;
 
 @Repository
-public interface CategoriesRepository extends CrudRepository<Category, Integer>{
-
-	@Override
-	public List<Category> findAll();
+public interface StepsRepository extends CrudRepository<Step, Integer> {
 	
-	public Optional<Category> findByName(String name);
+	public List<Step> findAll();
+	
+	public Optional<Step> findByDescription(String description);
 	
 	@Transactional
-	public void deleteByName(String name);
+	public void deleteByDescription(String description);
 	
 }

@@ -1,9 +1,13 @@
 package co.edu.icesi.metrocali.blackbox.api.policies;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +21,11 @@ import co.edu.icesi.metrocali.blackbox.repositories.policies.SettingsRepository;
 
 @RestController
 @RequestMapping("/policies/settings")
-public class SettingsController {
+public class HTTPRestSettingsAPI {
 	
 	private SettingsRepository settingsRepository;
 	
-	public SettingsController(SettingsRepository settingsRepository) {
+	public HTTPRestSettingsAPI(SettingsRepository settingsRepository) {
 		this.settingsRepository = settingsRepository;
 	}
 	
@@ -31,29 +35,39 @@ public class SettingsController {
 		List<Setting> settings = settingsRepository.findAll();
 		
 		if(settings != null && !settings.isEmpty()) {
-			return new ResponseEntity<List<Setting>>(
-				settings, HttpStatus.OK
-			);
+			return ResponseEntity.ok(settings);
 		}else {
-			return new ResponseEntity<List<Setting>>(
-				HttpStatus.INTERNAL_SERVER_ERROR
-			);
+			return ResponseEntity.notFound().build();
+		}
+		
+	}
+	
+	@GetMapping("/{key}")
+	public ResponseEntity<Setting> retrieve(
+			@PathVariable @NotBlank String key) {
+		
+		Optional<Setting> setting = settingsRepository.findByKey(key);
+		
+		if(setting.isPresent()) {
+			return ResponseEntity.ok(setting.get());
+		}else {
+			return ResponseEntity.notFound().build();
 		}
 		
 	}
 	
 	@PostMapping
-	public ResponseEntity<HttpStatus> save(
-			@RequestBody Setting setting) {
+	public ResponseEntity<Setting> save(
+			@RequestBody @NonNull Setting setting) {
 		
-		settingsRepository.save(setting);
-		return ResponseEntity.ok().build();
+		Setting persistedSetting = settingsRepository.save(setting);
+		return ResponseEntity.ok(persistedSetting);
 		
 	}
 	
 	@DeleteMapping("/{key}")
 	public ResponseEntity<HttpStatus> delete(
-			@PathVariable String key) {
+			@PathVariable @NotBlank String key) {
 		
 		settingsRepository.deleteByKey(key);
 		return ResponseEntity.ok().build();
