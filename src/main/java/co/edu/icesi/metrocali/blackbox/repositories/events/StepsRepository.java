@@ -15,7 +15,7 @@ public interface StepsRepository extends CrudRepository<Step, Integer> {
 	
 	public List<Step> findAll();
 	
-	public Optional<Step> findByDescription(String description);
+	public Optional<Step> findByCode(String code);
 	
 	@Transactional
 	public void deleteByDescription(String description);

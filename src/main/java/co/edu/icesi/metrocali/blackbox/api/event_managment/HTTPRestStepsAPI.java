@@ -41,12 +41,12 @@ public class HTTPRestStepsAPI {
 		}
 	}
 	
-	@GetMapping("/{name}")
+	@GetMapping("/{code}")
 	public ResponseEntity<Step> retrieve(
-			@PathVariable @NotBlank String name){
+			@PathVariable @NotBlank String code){
 		
 		Optional<Step> state = 
-			stepsRepository.findByDescription(name);
+			stepsRepository.findByCode(code);
 		
 		if(state.isPresent()) {
 			return ResponseEntity.ok(state.get());

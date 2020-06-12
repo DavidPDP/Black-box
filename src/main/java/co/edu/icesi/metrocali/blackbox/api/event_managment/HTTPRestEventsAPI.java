@@ -33,7 +33,9 @@ public class HTTPRestEventsAPI {
 			@RequestParam @NotBlank String interval) {
 
 		List<Event> events = eventsRepository.findLastEvents(interval);
-
+		
+		System.out.println(events.size());
+		
 		if(events != null && !events.isEmpty()) {
 			return ResponseEntity.ok(events);
 		}else {
