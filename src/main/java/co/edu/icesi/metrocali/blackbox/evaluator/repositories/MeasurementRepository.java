@@ -1,12 +1,13 @@
-package co.edu.icesi.metrocali.evaluator.repositories;
+package co.edu.icesi.metrocali.blackbox.evaluator.repositories;
+
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import co.edu.icesi.metrocali.evaluator.entities.Measurement;
-import co.edu.icesi.metrocali.evaluator.entities.Variable;
+import co.edu.icesi.metrocali.blackbox.evaluator.entities.Measurement;
+import co.edu.icesi.metrocali.blackbox.evaluator.entities.Variable;
 
 
 @Repository

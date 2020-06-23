@@ -1,4 +1,4 @@
-package co.edu.icesi.metrocali.evaluator.expression;
+package co.edu.icesi.metrocali.blackbox.evaluator.expression;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -7,7 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import org.springframework.data.util.Pair;
-import co.edu.icesi.metrocali.evaluator.expression.EvalFunction.Info;
+import co.edu.icesi.metrocali.blackbox.evaluator.expression.EvalFunction.Info;
 
 
 public class FunctionInfo {
