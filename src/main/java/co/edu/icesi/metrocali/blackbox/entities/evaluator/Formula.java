@@ -1,4 +1,4 @@
-package co.edu.icesi.metrocali.blackbox.evaluator.entities;
+package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
