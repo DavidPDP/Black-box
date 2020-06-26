@@ -19,8 +19,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableJpaRepositories(basePackages = {"co.edu.icesi.metrocali.blackbox.repositories.evaluator"},
-        entityManagerFactoryRef = "evalEntityManager",
-        transactionManagerRef = "evalTransactionManager")
+        entityManagerFactoryRef = "evaluatorEntityManager",
+        transactionManagerRef = "evaluatorTransactionManager")
 public class PgEvaluatorConf {
 
     @Bean
@@ -35,9 +35,9 @@ public class PgEvaluatorConf {
     @Bean
     @Primary
     public DataSource eventsDataSource(
-            @Qualifier("evalDSProperties") DataSourceProperties evalDSProperties) {
+            @Qualifier("evaluatorDSProperties") DataSourceProperties evaluatorDSProperties) {
 
-        return evalDSProperties.initializeDataSourceBuilder().build();
+        return evaluatorDSProperties.initializeDataSourceBuilder().build();
 
     }
 
@@ -45,7 +45,7 @@ public class PgEvaluatorConf {
     @Primary
     public LocalContainerEntityManagerFactoryBean eventsEntityManager(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("evalDataSource") DataSource dataSource) {
+            @Qualifier("evaluatorDataSource") DataSource dataSource) {
 
         HashMap<String, Object> properties = new HashMap<>();
 
@@ -54,14 +54,14 @@ public class PgEvaluatorConf {
 
         return builder.dataSource(dataSource).properties(properties)
                 .packages("co.edu.icesi.metrocali.blackbox.entities.evaluator")
-                .persistenceUnit("eval").build();
+                .persistenceUnit("evaluator").build();
 
     }
 
     @Bean
     @Primary
     public PlatformTransactionManager eventsTransactionManager(
-            @Qualifier("evalEntityManager") EntityManagerFactory entityManagerFactory) {
+            @Qualifier("evaluatorEntityManager") EntityManagerFactory entityManagerFactory) {
 
         return new JpaTransactionManager(entityManagerFactory);
 
