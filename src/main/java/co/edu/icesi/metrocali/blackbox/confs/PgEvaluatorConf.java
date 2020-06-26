@@ -24,17 +24,15 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class PgEvaluatorConf {
 
     @Bean
-    @Primary
     @ConfigurationProperties("spring.datasource.evaluator")
-    public DataSourceProperties eventsDSProperties() {
+    public DataSourceProperties evaluatorDSProperties() {
 
         return new DataSourceProperties();
 
     }
 
     @Bean
-    @Primary
-    public DataSource eventsDataSource(
+    public DataSource evaluatorDataSource(
             @Qualifier("evaluatorDSProperties") DataSourceProperties evaluatorDSProperties) {
 
         return evaluatorDSProperties.initializeDataSourceBuilder().build();
@@ -42,8 +40,7 @@ public class PgEvaluatorConf {
     }
 
     @Bean
-    @Primary
-    public LocalContainerEntityManagerFactoryBean eventsEntityManager(
+    public LocalContainerEntityManagerFactoryBean evaluatorEntityManager(
             EntityManagerFactoryBuilder builder,
             @Qualifier("evaluatorDataSource") DataSource dataSource) {
 
@@ -59,8 +56,7 @@ public class PgEvaluatorConf {
     }
 
     @Bean
-    @Primary
-    public PlatformTransactionManager eventsTransactionManager(
+    public PlatformTransactionManager evaluatorTransactionManager(
             @Qualifier("evaluatorEntityManager") EntityManagerFactory entityManagerFactory) {
 
         return new JpaTransactionManager(entityManagerFactory);
