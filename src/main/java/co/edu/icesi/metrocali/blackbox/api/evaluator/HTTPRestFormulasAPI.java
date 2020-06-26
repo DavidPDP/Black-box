@@ -63,7 +63,8 @@ public class HTTPRestFormulasAPI {
     @GetMapping("/filtered")
     public ResponseEntity<List<Formula>> getFormulasByFilter(
             @RequestParam(name = "variable_name", required = false) String variableName,
-            @RequestParam(name = "active", required = false, defaultValue = "false") boolean active)
+            @RequestParam(name = "active", required = false, defaultValue = "false") boolean active,
+            @RequestParam(name = "is_kpi", required = false, defaultValue = "false") boolean isKPI)
             throws Exception {
 
 
@@ -81,7 +82,13 @@ public class HTTPRestFormulasAPI {
                             .findByVariable(variableRepository.findByNameVariable(variableName));
                 }
             } else if (active) {
-                formulasRepository.findByEndDateIsNull();
+                if (isKPI) {
+                    formulasRepository.findActivesByKPIs();
+                } else {
+                    formulasRepository.findByEndDateIsNull();
+                }
+            } else if(isKPI){
+                formulasRepository.findByKPIs();
             } else {
                 formulasRepository.findAll();
             }
