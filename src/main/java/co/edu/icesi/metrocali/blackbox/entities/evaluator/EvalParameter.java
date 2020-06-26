@@ -3,8 +3,11 @@ package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -14,6 +17,9 @@ import java.util.List;
 @Entity
 @Table(name="t_003_parameters", schema = "aviom_eval")
 @NamedQuery(name="EvalParameter.findAll", query="SELECT t FROM EvalParameter t")
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EvalParameter implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -42,49 +48,5 @@ public class EvalParameter implements Serializable {
 		this.name=name;
 		this.value=value;
 	}	
-
-	public EvalParameter(){
-
-	}
-
-	public Integer getIdParameter() {
-		return this.idParameter;
-	}
-
-	public void setIdParameter(Integer idParameter) {
-		this.idParameter = idParameter;
-	}
-
-	public Date getEnableEnd() {
-		return this.enableEnd;
-	}
-
-	public void setEnableEnd(Date enableEnd) {
-		this.enableEnd = enableEnd;
-	}
-
-	public Date getEnableStart() {
-		return this.enableStart;
-	}
-
-	public void setEnableStart(Date enableStart) {
-		this.enableStart = enableStart;
-	}
-
-	public double getValue() {
-		return this.value;
-	}
-
-	public void setValue(Double val) {
-		this.value = val;
-	}
-
-	public String getName(){
-		return name;
-	}
-
-	public void setName(String name){
-		this.name=name;
-	}
 
 }

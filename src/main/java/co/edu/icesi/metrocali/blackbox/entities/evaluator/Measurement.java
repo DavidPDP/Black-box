@@ -3,6 +3,10 @@ package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.Date;
 
 
@@ -13,6 +17,9 @@ import java.util.Date;
 @Entity
 @Table(name = "t_003_measurements", schema = "aviom_eval")
 @NamedQuery(name = "Measurement.findAll", query = "SELECT t FROM Measurement t")
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Measurement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -38,48 +45,4 @@ public class Measurement implements Serializable {
 	@JoinColumn(name = "variable_name")
 	private Variable variable;
 
-
-
-	public Measurement() {
-	}
-
-	public Integer getIdMeasurement() {
-		return this.idMeasurement;
-	}
-
-	public void setIdMeasurement(Integer idMeasurement) {
-		this.idMeasurement = idMeasurement;
-	}
-
-	public Date getEndDate() {
-		return this.endDate;
-	}
-
-	public void setEndDate(Date eDate) {
-		this.endDate = eDate;
-	}
-
-	public double getValue() {
-		return this.value;
-	}
-
-	public void setValue(double measure) {
-		this.value = measure;
-	}
-
-	public Date getStartDate() {
-		return this.startDate;
-	}
-
-	public void setStartDate(Date sDate) {
-		this.startDate = sDate;
-	}
-
-	public Variable getVariable() {
-		return this.variable;
-	}
-
-	public void setVariable(Variable variable) {
-		this.variable = variable;
-	}
 }

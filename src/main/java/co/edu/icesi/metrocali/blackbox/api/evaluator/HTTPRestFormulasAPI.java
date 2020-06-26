@@ -110,7 +110,7 @@ public class HTTPRestFormulasAPI {
                     Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
             lastFormula.setEndDate(currentDate);
 
-            formula.setSartDate(currentDate);
+            formula.setStartDate(currentDate);
             formula.setEndDate(null);
 
             Formula newFormula = formulasRepository.save(formula);

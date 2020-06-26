@@ -1,11 +1,18 @@
 package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
 @Table(name="t_003_measurements_parameter", schema = "aviom_eval")
 @NamedQuery(name="MeasurementsParameters.findAll", query="SELECT t FROM MeasurementsParameters t")
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MeasurementsParameters {
 
     @Id
@@ -22,31 +29,5 @@ public class MeasurementsParameters {
     @JoinColumn(name="id_measurement")
     private Measurement measurement;
 
-    public MeasurementsParameters() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public EvalParameter getParameter() {
-        return parameter;
-    }
-
-    public void setParameter(EvalParameter parameter) {
-        this.parameter = parameter;
-    }
-
-    public Measurement getMeasurement() {
-        return measurement;
-    }
-
-    public void setMeasurement(Measurement measurement) {
-        this.measurement = measurement;
-    }
     
 }
