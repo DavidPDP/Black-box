@@ -8,17 +8,17 @@ import javax.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import co.edu.icesi.metrocali.blackbox.entities.policies.Role;
+import co.edu.icesi.metrocali.blackbox.entities.policies.Setting;
 
 @Repository
-public interface RolesRepository extends CrudRepository<Role, Integer> {
+public interface SettingsRepository extends CrudRepository<Setting, Integer>{
 
 	@Override
-	public List<Role> findAll();
+	public List<Setting> findAll();
 	
-	public Optional<Role> findByName(String name);
+	public Optional<Setting> findByKey(String key);
 	
 	@Transactional
-	public void deleteByName(String name);
+	public void deleteByKey(String key);
 	
 }

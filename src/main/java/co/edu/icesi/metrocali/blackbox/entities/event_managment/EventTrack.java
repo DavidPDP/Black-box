@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,8 +26,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="t_002_events_track", schema="event_managment")
-@Getter
-@Setter
+@Getter @Setter
 public class EventTrack {
 
 	@Id
@@ -50,33 +48,21 @@ public class EventTrack {
 	@Column(name="start_time", insertable=false, updatable=false)
 	private Timestamp startTime;
 
-	@OneToMany(mappedBy="eventsTrack",
-		cascade= {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE}
-	)
-	@JsonManagedReference("err1")
-	private List<EventRemark> eventsRemarks;
+	@OneToMany(mappedBy="eventTrack", cascade= CascadeType.ALL)
+	@JsonManagedReference("event_track-event_remark")
+	private List<EventRemark> eventRemarks;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="manager")
-	@JsonBackReference("ur2")
 	private User user;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="event")
-	@JsonBackReference("etr1")
+	@JsonBackReference("event-event_track")
 	private Event event;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="state")
-	@JsonBackReference("etr3")
 	private State state;
-	
-	@Override
-	public String toString() {
-		String state = this.getState() != null ? this.getState().getName() : "";
-		return "id: " + this.id + " - code: " + this.code 
-				+ " - startTime: " + this.startTime + " - endTime: " 
-				+ this.endTime + " - state: " + state;
-	}
 	
 }

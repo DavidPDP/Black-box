@@ -14,12 +14,20 @@ import co.edu.icesi.metrocali.blackbox.entities.policies.User;
 @Repository
 public interface UsersRepository extends CrudRepository<User, Integer> {
 	
+	//CRUD ----------------------------------------
+	@Override
+	public List<User> findAll();
+	
+	public List<User> findByRoles_Name(String name);
+	
 	public Optional<User> findByAccountName(String accountName);
 	
 	@Transactional
 	public void deleteByAccountName(String accountName);
+	//---------------------------------------------
 	
-	@Query(value="select u.id, u.account_name, u.email, u.name, u.lastname, u.password, u.token " + 
+	//Reports -------------------------------------
+	@Query(value="select u.id, u.account_name, u.email, u.name, u.last_name, u.password " + 
 			"from event_managment.t_002_users_track t " + 
 			"join (select t.owner, max(start_time) last_date " + 
 			"from event_managment.t_002_users_track t " + 
@@ -31,5 +39,6 @@ public interface UsersRepository extends CrudRepository<User, Integer> {
 			"where s.name <> 'Offline' and r.name = 'Controller'", 
 			nativeQuery = true)
 	public List<User> findAllOnlineControllers();
+	//---------------------------------------------	
 	
 }

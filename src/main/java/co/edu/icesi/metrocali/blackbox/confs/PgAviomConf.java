@@ -18,41 +18,62 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"co.edu.icesi.metrocali.blackbox.repositories.policies",
-		"co.edu.icesi.metrocali.blackbox.repositories.events"}, 
-		entityManagerFactoryRef = "eventsEntityManager", 
-		transactionManagerRef = "eventsTransactionManager")
+@EnableJpaRepositories(
+	basePackages = {
+		"co.edu.icesi.metrocali.blackbox.repositories.policies",
+		"co.edu.icesi.metrocali.blackbox.repositories.events"
+	}, 
+	entityManagerFactoryRef = "eventsEntityManager", 
+	transactionManagerRef = "eventsTransactionManager"
+)
 public class PgAviomConf {
 
 	@Bean
 	@Primary
 	@ConfigurationProperties("spring.datasource.events")
 	public DataSourceProperties eventsDSProperties() {
+		
 		return new DataSourceProperties();
+		
 	}
 	
 	@Bean
 	@Primary
-	public DataSource eventsDataSource(@Qualifier("eventsDSProperties") DataSourceProperties eventsDSProperties) {
+	public DataSource eventsDataSource(
+		@Qualifier("eventsDSProperties") 
+		DataSourceProperties eventsDSProperties) {
+		
 		return eventsDSProperties.initializeDataSourceBuilder().build();
+	
 	}
 
 	@Bean
 	@Primary
-	public LocalContainerEntityManagerFactoryBean eventsEntityManager(EntityManagerFactoryBuilder builder,
-			@Qualifier("eventsDataSource") DataSource dataSource) {
+	public LocalContainerEntityManagerFactoryBean eventsEntityManager(
+		EntityManagerFactoryBuilder builder,
+		@Qualifier("eventsDataSource") DataSource dataSource) {
+		
 		HashMap<String, Object> properties = new HashMap<>();
+		
 		properties.put("hibernate.hbm2ddl.auto", "none");
-		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		properties.put("hibernate.dialect", 
+				"org.hibernate.dialect.PostgreSQLDialect");
+		
 		return builder.dataSource(dataSource).properties(properties)
-				.packages("co.edu.icesi.metrocali.blackbox.entities.policies",
-						"co.edu.icesi.metrocali.blackbox.entities.event_managment").persistenceUnit("events").build();
+			.packages(
+				"co.edu.icesi.metrocali.blackbox.entities.policies",
+				"co.edu.icesi.metrocali.blackbox.entities.event_managment"
+			).persistenceUnit("events").build();
+		
 	}
 
 	@Bean
 	@Primary
 	public PlatformTransactionManager eventsTransactionManager(
-			@Qualifier("eventsEntityManager") EntityManagerFactory entityManagerFactory) {
+			@Qualifier("eventsEntityManager") 
+			EntityManagerFactory entityManagerFactory) {
+		
 		return new JpaTransactionManager(entityManagerFactory);
+		
 	}
 }

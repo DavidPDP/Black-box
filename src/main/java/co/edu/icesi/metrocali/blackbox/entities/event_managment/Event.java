@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,19 +17,14 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
 @Entity
 @Table(name="t_002_events", schema="event_managment")
-@Getter
-@Setter
+@Getter @Setter
 public class Event {
 
 	@Id
@@ -53,29 +47,33 @@ public class Event {
 	private Long source;
 	
 	@Column(name="source_type")
-	@JsonProperty("source_type")
 	private String sourceType;
 
 	@Column(name="title")
 	private String title;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="category")
-	@JsonBackReference("cr1")
 	private Category category;
 
-	@OneToMany(mappedBy="event", 
-		cascade= {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE}
-	)
-	@JsonManagedReference("etr1")
-	@JsonProperty("event_tracks")
+	@OneToMany(mappedBy="event", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonManagedReference("event-event_track")
 	private List<EventTrack> eventsTracks;
 	
-	@OneToMany(mappedBy="event", 
-		cascade= {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE}
-	)
-	@JsonManagedReference("ptr2")
-	@JsonProperty("protocol_tracks")
+	@OneToMany(mappedBy="event", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonManagedReference("event-protocol_track")
 	private List<ProtocolTrack> protocolTracks;
 
+public String toString() {
+		
+		String text = "";
+		
+		for (EventTrack eventTrack : eventsTracks) {
+			text += "[id: " + eventTrack.getId() + " code: " + 
+				eventTrack.getCode() + "]";
+		}
+		
+		return text;
+	}
+	
 }

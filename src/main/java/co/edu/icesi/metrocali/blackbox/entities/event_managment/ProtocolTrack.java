@@ -21,8 +21,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="t_002_protocols_tracks", schema="event_managment")
-@Getter
-@Setter
+@Getter @Setter
 public class ProtocolTrack {
 
 	@Id
@@ -39,16 +38,11 @@ public class ProtocolTrack {
 	
 	@ManyToOne
 	@JoinColumn(name="event")
-	@JsonBackReference("ptr2")
+	@JsonBackReference("event-protocol_track")
 	private Event event;
 	
 	@ManyToOne
 	@JoinColumn(name="protocol")
-	@JsonBackReference("ptr1")
 	private Protocol protocol;
 	
-	@Override
-	public String toString() {
-		return "" + this.id + " - " + this.done + " - ";
-	}
 }

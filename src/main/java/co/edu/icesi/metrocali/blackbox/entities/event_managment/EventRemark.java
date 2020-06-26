@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,8 +22,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="t_002_events_remarks", schema="event_managment")
-@Getter
-@Setter
+@Getter @Setter
 public class EventRemark {
 
 	@Id
@@ -42,14 +40,13 @@ public class EventRemark {
 	@Column(name="creation")
 	private Timestamp creation;
 
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="author")
-	@JsonBackReference("ur1")
 	private User user;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="track")
-	@JsonBackReference("err1")
-	private EventTrack eventsTrack;
+	@JsonBackReference("event_track-event_remark")
+	private EventTrack eventTrack;
 
 }
