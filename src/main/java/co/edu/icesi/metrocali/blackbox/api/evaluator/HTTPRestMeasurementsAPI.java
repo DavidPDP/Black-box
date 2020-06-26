@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.icesi.metrocali.blackbox.entities.evaluator.EvalParameter;
 import co.edu.icesi.metrocali.blackbox.entities.evaluator.Measurement;
-import co.edu.icesi.metrocali.blackbox.entities.evaluator.ParameterMeasurement;
+import co.edu.icesi.metrocali.blackbox.entities.evaluator.MeasurementsParameters;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.EvalParameterRepository;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.MeasurementRepository;
-import co.edu.icesi.metrocali.blackbox.repositories.evaluator.ParameterMeasurementRepository;
+import co.edu.icesi.metrocali.blackbox.repositories.evaluator.MeasurementsParameters;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.VariableRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +45,7 @@ public class HTTPRestMeasurementsAPI {
     private EvalParameterRepository parameterRepository;
 
     @Autowired
-    private ParameterMeasurementRepository parameterMeasurementRepository;
+    private MeasurementsParameters parameterMeasurementRepository;
 
     private HashMap<String, List<Measurement>> getLastVariableMeasurements(
             List<String> variablesNames) throws Exception {
@@ -135,11 +135,11 @@ public class HTTPRestMeasurementsAPI {
     public ResponseEntity<?> saveAll(@RequestBody List<Measurement> measurements) {
         try {
             List<Measurement> newMeasurements = measurementRepository.saveAll(measurements);
-            List<ParameterMeasurement> relationships = new ArrayList<>();
+            List<MeasurementsParameters> relationships = new ArrayList<>();
             List<EvalParameter> activeParameters = parameterRepository.findByEnableEndIsNull();
             for (Measurement measurement : newMeasurements) {
                 for (EvalParameter parameter : activeParameters) {
-                    ParameterMeasurement relationship = new ParameterMeasurement();
+                    MeasurementsParameters relationship = new MeasurementsParameters();
                     relationship.setMeasurement(measurement);
                     relationship.setParameter(parameter);
                     relationships.add(relationship);

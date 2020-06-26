@@ -17,7 +17,7 @@ public interface EvalParameterRepository extends CrudRepository<EvalParameter, I
 
     public List<EvalParameter> findAll();
 
-    public boolean existByName(String name);
+    public boolean existsByName(String name);
 
     public List<EvalParameter> findByName(String name);
 

@@ -3,7 +3,6 @@ package co.edu.icesi.metrocali.blackbox.api.evaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +73,7 @@ public class HTTPRestParametersAPI {
         try {
             Date currentDate = Date.from(new Timestamp(System.currentTimeMillis()).toInstant());
             String parameterName = parameter.getName();
-            if (parametersRepository.existByName(parameterName)) {
+            if (parametersRepository.existsByName(parameterName)) {
                 throw new Exception("El parámetro: " + parameter.getName() + " no existe.");
             }
             EvalParameter oldParameter =
