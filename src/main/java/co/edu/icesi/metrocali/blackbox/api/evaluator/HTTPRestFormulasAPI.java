@@ -44,7 +44,7 @@ public class HTTPRestFormulasAPI {
 
     }
 
-    @GetMapping("{variable_name}")
+    @GetMapping("/{variable_name}")
     public ResponseEntity<List<Formula>> getFormulasByVariable(
             @PathVariable(name = "variable_name", required = true) String variableName) {
         try {
