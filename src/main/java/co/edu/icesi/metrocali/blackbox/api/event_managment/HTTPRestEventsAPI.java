@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.icesi.metrocali.blackbox.entities.event_managment.Event;
+import co.edu.icesi.metrocali.blackbox.entities.event_managment.EventTrack;
 import co.edu.icesi.metrocali.blackbox.repositories.events.EventsRepository;
 
 @RestController
@@ -32,9 +33,8 @@ public class HTTPRestEventsAPI {
 	public ResponseEntity<List<Event>> retrieveAll(
 			@RequestParam @NotBlank String interval) {
 
-		List<Event> events = eventsRepository.findLastEvents(interval);
-		
-		System.out.println(events.size());
+		List<Event> events = 
+			eventsRepository.findLastEvents(interval);
 		
 		if(events != null && !events.isEmpty()) {
 			return ResponseEntity.ok(events);
@@ -48,7 +48,8 @@ public class HTTPRestEventsAPI {
 	public ResponseEntity<Event> retrieve(
 			@PathVariable @NotBlank String code) {
 		
-		Optional<Event> event = eventsRepository.findByCode(code);
+		Optional<Event> event = 
+			eventsRepository.findByCode(code);
 		
 		if(event.isPresent()) {
 			return ResponseEntity.ok(event.get());
@@ -61,10 +62,27 @@ public class HTTPRestEventsAPI {
 	@PostMapping
 	public ResponseEntity<Event> saveEvent(
 			@RequestBody @NonNull Event event){
-		System.out.println("P1: " + event.toString());
+
 		Event savedEvent = eventsRepository.save(event);
-		System.out.println("P2: " + event.toString());
 		return ResponseEntity.ok(savedEvent);
+		
+	}
+	
+	@GetMapping("/history/{accountName}")
+	public ResponseEntity<List<EventTrack>> history(
+			@PathVariable @NotBlank String accountName,
+			@RequestParam @NotBlank String interval) {
+		
+		List<EventTrack> eventTracks = 
+			eventsRepository.findAllByUserAndDate(
+				accountName, interval
+			);
+		
+		if(eventTracks != null && !eventTracks.isEmpty()) {
+			return ResponseEntity.ok(eventTracks);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 		
 	}
 		

@@ -62,18 +62,6 @@ public class Event {
 	
 	@OneToMany(mappedBy="event", cascade=CascadeType.ALL, orphanRemoval=true)
 	@JsonManagedReference("event-protocol_track")
-	private List<ProtocolTrack> protocolTracks;
-
-public String toString() {
-		
-		String text = "";
-		
-		for (EventTrack eventTrack : eventsTracks) {
-			text += "[id: " + eventTrack.getId() + " code: " + 
-				eventTrack.getCode() + "]";
-		}
-		
-		return text;
-	}
+	private List<ProtocolTrack> protocolsTracks;
 	
 }
