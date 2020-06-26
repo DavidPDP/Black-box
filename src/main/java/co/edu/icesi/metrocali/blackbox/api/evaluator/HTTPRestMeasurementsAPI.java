@@ -20,7 +20,7 @@ import co.edu.icesi.metrocali.blackbox.entities.evaluator.Measurement;
 import co.edu.icesi.metrocali.blackbox.entities.evaluator.MeasurementsParameters;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.EvalParameterRepository;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.MeasurementRepository;
-import co.edu.icesi.metrocali.blackbox.repositories.evaluator.MeasurementsParameters;
+import co.edu.icesi.metrocali.blackbox.repositories.evaluator.MeasurementsParametersRepository;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.VariableRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +45,7 @@ public class HTTPRestMeasurementsAPI {
     private EvalParameterRepository parameterRepository;
 
     @Autowired
-    private MeasurementsParameters parameterMeasurementRepository;
+    private MeasurementsParametersRepository parameterMeasurementRepository;
 
     private HashMap<String, List<Measurement>> getLastVariableMeasurements(
             List<String> variablesNames) throws Exception {
