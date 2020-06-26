@@ -30,13 +30,6 @@ public class Variable implements Serializable {
 	@Column(name = "is_kpi")
 	private Boolean isKPI;
 
-	// bi-directional many-to-one association to T003Measurement
-	@OneToMany(mappedBy = "variable",cascade = CascadeType.REMOVE)
-	private List<Measurement> measurements= new ArrayList<Measurement>();
-
-	@OneToMany(mappedBy = "variable",cascade = CascadeType.REMOVE)
-	private List<Formula> formulas= new ArrayList<Formula>();
-
 
 
 	public Variable() {
@@ -72,51 +65,6 @@ public class Variable implements Serializable {
 
 	public void setIsKPI(boolean isKPI) {
 		this.isKPI = isKPI;
-	}
-
-	public List<Formula> getFormulas() {
-		return this.formulas;
-	}
-
-	public void setFormula(List<Formula> formulas) {
-		this.formulas = formulas;
-	}
-
-	public List<Measurement> getMeasurements() {
-		return this.measurements;
-	}
-
-	public void setMeasurements(List<Measurement> measurements) {
-		this.measurements = measurements;
-	}
-
-	public Measurement addMeasurement(Measurement measurement) {
-		getMeasurements().add(measurement);
-		measurement.setVariable(this);
-
-		return measurement;
-	}
-
-	public Measurement removeMeasurement(Measurement measurement) {
-		getMeasurements().remove(measurement);
-		measurement.setVariable(null);
-
-		return measurement;
-	}
-
-	public Formula addFormula(Formula formula) {
-
-		getFormulas().add(formula);
-		formula.setVariable(this);
-
-		return formula;
-	}
-
-	public Formula removeFormuña(Formula formula) {
-		getFormulas().remove(formula);
-		formula.setVariable(null);
-
-		return formula;
 	}
 
 }
