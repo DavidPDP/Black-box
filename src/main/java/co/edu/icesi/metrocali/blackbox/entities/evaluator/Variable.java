@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "t_003_variables", schema = "aviom_eval")
-@NamedQuery(name = "Variable.findAll", query = "SELECT t, f.expression FROM Variable t, Formula f WHERE f.variable = t")
+@NamedQuery(name = "Variable.findAll", query = "SELECT v FROM Variable v")
 public class Variable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
