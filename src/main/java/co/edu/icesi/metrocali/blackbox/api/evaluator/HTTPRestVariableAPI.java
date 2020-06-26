@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.icesi.metrocali.blackbox.entities.evaluator.Variable;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.VariableRepository;
@@ -22,18 +23,46 @@ public class HTTPRestVariableAPI {
     @Autowired
     private VariableRepository variableRepository;
 
+
     @GetMapping
-    public ResponseEntity<Object> getVariables() {
+    public ResponseEntity<List<Variable>> getVariables() {
 
         List<Variable> variables = new ArrayList<>();
         try {
             variables = variableRepository.findAll();
             return ResponseEntity.ok().body(variables);
+        } catch (
+
+        Exception e) {
+            log.error("error at GET /evaluator/variables", e);
+            throw e;
+        }
+    }
+
+    @GetMapping("/filteredBy")
+    public ResponseEntity<List<Variable>> getVariables(
+            @RequestParam(name = "is_kpi", required = false) boolean isKPI) {
+
+        List<Variable> variables = new ArrayList<>();
+        try {
+            variables = variableRepository.findByIsKPI(isKPI);
+            return ResponseEntity.ok().body(variables);
+        } catch (
+
+        Exception e) {
+            log.error("error at GET /evaluator/variables", e);
+            throw e;
+        }
+    }
+
+    @GetMapping("/{variable_name}")
+    public ResponseEntity<Variable> getVariable(String name) {
+        try {
+            return ResponseEntity.ok().body(variableRepository.findByNameVariable(name));
         } catch (Exception e) {
             log.error("error at GET /evaluator/variables", e);
             throw e;
         }
-
     }
 
     @PostMapping
