@@ -36,11 +36,6 @@ public class EvalParameter implements Serializable {
 	private double value;
 
 
-
-	//bi-directional many-to-one association to T003Measurement
-	@OneToMany(mappedBy="parameter")
-	private List<ParameterMesurement> measurements;
-
 	public EvalParameter( Date enableStart, Date enableEnd, String name, double value) {
 		this.enableStart=enableStart;
 		this.enableEnd=enableEnd;
@@ -90,28 +85,6 @@ public class EvalParameter implements Serializable {
 
 	public void setName(String name){
 		this.name=name;
-	}
-
-	public List<ParameterMesurement> getMeasurements() {
-		return this.measurements;
-	}
-
-	public void setMeasurements(List<ParameterMesurement> measurements) {
-		this.measurements = measurements;
-	}
-
-	public ParameterMesurement addMeasurement(ParameterMesurement measurement) {
-		getMeasurements().add(measurement);
-		measurement.setParameter(this);
-
-		return measurement;
-	}
-
-	public ParameterMesurement removeMeasurement(ParameterMesurement measurement) {
-		getMeasurements().remove(measurement);
-		measurement.setParameter(null);
-
-		return measurement;
 	}
 
 }
