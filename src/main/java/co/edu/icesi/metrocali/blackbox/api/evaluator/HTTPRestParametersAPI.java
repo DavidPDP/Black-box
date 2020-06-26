@@ -68,8 +68,8 @@ public class HTTPRestParametersAPI {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateParameter(@RequestBody(required = true) EvalParameter parameter)
-            throws Exception {
+    public ResponseEntity<EvalParameter> updateParameter(
+            @RequestBody(required = true) EvalParameter parameter) throws Exception {
 
         try {
             Date currentDate = Date.from(new Timestamp(System.currentTimeMillis()).toInstant());
@@ -80,8 +80,8 @@ public class HTTPRestParametersAPI {
             EvalParameter oldParameter =
                     parametersRepository.findByNameAndEnableEndIsNull(parameterName);
             oldParameter.setEnableEnd(currentDate);
-            parametersRepository.save(parameter);
-            return ResponseEntity.ok().build();
+            EvalParameter newParameter = parametersRepository.save(parameter);
+            return ResponseEntity.ok().body(newParameter);
         } catch (Exception e) {
             log.error("at PUT /parameters", e);
             throw e;
