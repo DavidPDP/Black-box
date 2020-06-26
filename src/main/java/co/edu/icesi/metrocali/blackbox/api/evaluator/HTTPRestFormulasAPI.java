@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +32,8 @@ public class HTTPRestFormulasAPI {
     private VariableRepository variableRepository;
 
 
-    @GetMapping()
-    public ResponseEntity<List<Formula>> retrieve(
-            @RequestParam(name = "variable_name", required = false) String variableName,
+    @GetMapping("/{variable_name}")
+    public ResponseEntity<List<Formula>> retrieve(@PathVariable(name = "variable_name") String variableName,
             @RequestParam(name = "active", required = false, defaultValue = "false") boolean active)
             throws Exception {
 
