@@ -3,9 +3,7 @@ package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -40,8 +38,7 @@ public class Measurement implements Serializable {
 	@JoinColumn(name = "variable_name")
 	private Variable variable;
 
-	@OneToMany(mappedBy = "measurement", cascade = CascadeType.ALL)
-	private List<ParameterMesurement> parameters = new ArrayList<>();
+
 
 	public Measurement() {
 	}
@@ -84,26 +81,5 @@ public class Measurement implements Serializable {
 
 	public void setVariable(Variable variable) {
 		this.variable = variable;
-	}
-
-	public List<ParameterMesurement> getParameters() {
-		return this.parameters;
-	}
-
-	public void setMeasurements(List<ParameterMesurement> parameters) {
-		this.parameters = parameters;
-	}
-
-	public ParameterMesurement addParamenter(ParameterMesurement parameter) {
-		getParameters().add(parameter);
-		parameter.setMeasurement(this);
-
-		return parameter;
-	}
-
-	public ParameterMesurement removeParameter(ParameterMesurement parameter) {
-		getParameters().remove(parameter);
-		parameter.setParameter(null);
-		return parameter;
 	}
 }
