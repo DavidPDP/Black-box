@@ -15,15 +15,12 @@ public interface MeasurementRepository extends CrudRepository<Measurement, Integ
 
         public <S extends Measurement> S save(S entity);
 
+
+        public <S extends Measurement> List<S> saveAll(Iterable<S> entities);
+
         public List<Measurement> findAll();
 
         public List<Measurement> findByVariable(Variable variable);
-
-        public List<Measurement> findByVariableAndEndDateBetween(Variable variable, Date startDate,
-                        Date endDate);
-
-        public List<Measurement> findByVariableAndStartDateBetween(Variable var, Timestamp start,
-                        Timestamp end);
 
         public List<Measurement> findByVariableAndStartDateGreaterThanAndEndDateLessThanOrderByEndDateDesc(
                         Variable variable, Date start, Date end);

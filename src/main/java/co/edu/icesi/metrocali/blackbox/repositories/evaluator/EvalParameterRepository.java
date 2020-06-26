@@ -17,25 +17,22 @@ public interface EvalParameterRepository extends CrudRepository<EvalParameter, I
 
     public List<EvalParameter> findAll();
 
+    public boolean existByName(String name);
+
+    public List<EvalParameter> findByName(String name);
+
     public EvalParameter findByNameAndEnableEndIsNull(String name);
 
     public List<EvalParameter> findByEnableEndIsNull();
 
-    public List<EvalParameter> findByEnableEnd(Date enableEnd);
 
-    public List<EvalParameter> findByNameAndEnableStartGreaterThanAndEnableEndLessThan(String name, Date enableStart,
+    public List<EvalParameter> findByNameAndEnableStartGreaterThanAndEnableEndLessThan(String name,
+            Date enableStart, Date enableEnd);
+
+
+    public List<EvalParameter> findByEnableStartGreaterThanAndEnableEndLessThan(Date enableStart,
             Date enableEnd);
 
-    public List<EvalParameter> findByNameAndEnableStartGreaterThan(String name, Date enableStart);
 
-    public List<EvalParameter> findByNameAndEnableEndLessThan(String name, Date enableEnd);
-
-    public List<EvalParameter> findByEnableStartGreaterThanAndEnableEndLessThan(Date enableStart, Date enableEnd);
-
-    public List<EvalParameter> findByEnableStartGreaterThan(Date enableStart);
-
-    public List<EvalParameter> findByEnableEndLessThan(Date enableEnd);
-
-    public List<EvalParameter> findByName(String name);
 
 }
