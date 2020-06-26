@@ -48,8 +48,8 @@ public class HTTPRestMeasurementsAPI {
     @Autowired
     private MeasurementsParametersRepository parameterMeasurementRepository;
 
-    private HashMap<String, List<Measurement>> getLastMeasurementsByVariable(List<String> variablesNames)
-            throws Exception {
+    private HashMap<String, List<Measurement>> getLastMeasurementsByVariable(
+            List<String> variablesNames) throws Exception {
         HashMap<String, List<Measurement>> measurementsByVariable = new HashMap<>();
 
 
@@ -122,13 +122,19 @@ public class HTTPRestMeasurementsAPI {
                         end = endDate;
                     }
 
-
-                    for (String name : variablesNames) {
-                        List<Measurement> measurements = new ArrayList<>();
-                        measurements = measurementRepository
-                                .findByVariableAndStartDateGreaterThanAndEndDateLessThanOrderByEndDateDesc(
-                                        variableRepository.findByNameVariable(name), start, end);
-                        measurementsByVariable.put(name, measurements);
+                    List<Measurement> measurements = measurementRepository
+                            .findByVariablesAndDatesBetween(
+                                    variableRepository.findAllById(variablesNames), start, end);
+                    for (Measurement measurement : measurements) {
+                        String variableName = measurement.getVariable().getNameVariable();
+                        if (measurementsByVariable.containsKey(variableName)) {
+                            measurementsByVariable.get(variableName).add(measurement);
+                        } else {
+                            List<Measurement> toAddMeasurements = new ArrayList<>();
+                            toAddMeasurements.add(measurement);
+                            measurementsByVariable.put(measurement.getVariable().getNameVariable(),
+                                    toAddMeasurements);
+                        }
                     }
                 }
                 return ResponseEntity.ok().body(measurementsByVariable);

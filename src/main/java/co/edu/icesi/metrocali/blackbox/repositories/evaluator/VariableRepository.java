@@ -10,14 +10,19 @@ import co.edu.icesi.metrocali.blackbox.entities.evaluator.Variable;
 
 
 @Repository
-public interface VariableRepository extends CrudRepository<Variable, String>{
-    
+public interface VariableRepository extends CrudRepository<Variable, String> {
+
     public <S extends Variable> S save(S entity);
 
     public Optional<Variable> findById(String id);
+
+    public List<Variable> findAllById(Iterable<String> ids);
+
     public List<Variable> findAll();
+
     public List<Variable> findByIsKPI(boolean isKpi);
+
     public Variable findByNameVariable(String name);
-       
+
 
 }
