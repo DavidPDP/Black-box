@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +48,8 @@ public class HTTPRestMeasurementsAPI {
     @Autowired
     private MeasurementsParametersRepository parameterMeasurementRepository;
 
-    private HashMap<String, List<Measurement>> getLastVariableMeasurements(
-            List<String> variablesNames) throws Exception {
+    private HashMap<String, List<Measurement>> getLastMeasurementsByVariable(List<String> variablesNames)
+            throws Exception {
         HashMap<String, List<Measurement>> measurementsByVariable = new HashMap<>();
 
 
@@ -59,31 +60,41 @@ public class HTTPRestMeasurementsAPI {
                                 variableRepository.findByNameVariable(name));
                 measurementsByVariable.put(name, measurements);
             }
-
             return measurementsByVariable;
         } else {
             throw new Exception("Se debe especificar, al menos, el nombre de una variable");
         }
+    }
+
+    @GetMapping("/{variable_name}/lasts")
+    public ResponseEntity<List<Measurement>> getLastMeasurementsByVariable(
+            @PathVariable(name = "variable_name", required = true) String variableName) {
+        try {
+            List<Measurement> measurements =
+                    measurementRepository.findTop5ByVariableOrderByEndDateDesc(
+                            variableRepository.findByNameVariable(variableName));
+            return ResponseEntity.ok().body(measurements);
+        } catch (Exception e) {
+            log.error("Erorr at GET '/evaluator/" + variableName + "'/lasts", e);
+            throw e;
+        }
+    }
+
+    @GetMapping("/lasts")
+    public ResponseEntity<HashMap<String, List<Measurement>>> getLastMeasurements(
+            @RequestParam(required = true, value = "names") List<String> variablesNames)
+            throws Exception {
+
+        try {
+            return ResponseEntity.ok().body(getLastMeasurementsByVariable(variablesNames));
+        } catch (Exception e) {
+            log.error("Erorr at GET '/lasts", e);
+            throw e;
+        }
 
     }
 
-    // dashboard
-    /**
-     * Returns a map with measurements for the indicated variables. Each measurements group is
-     * ordered in an descending way
-     * 
-     * @param names     a list of variable names which measurements will be obtained
-     * @param startDate a date which represents the 'from' date from measurements (for each
-     *                  variable) will be obtained. Is an optional parameter
-     * @param endDate   a date which represents the 'until' date until measurements (for each
-     *                  variable) will be obtained. Is an optional parameter.
-     * @param lasts     a boolean which specify if the values to calculate will be the last five
-     *                  values. It overrides the dates parameters. if its value, the service will
-     *                  return the last five measurements for each variable.
-     * @return a hashmap (json) with measurements for each variable. key is variable name and value
-     *         is a list with measurements for that variable.
-     * @see #getLastVariableMeasurements
-     */
+
     @GetMapping
     public ResponseEntity<HashMap<String, List<Measurement>>> getVariableMeasurements(
             @RequestParam(required = true, value = "names") List<String> variablesNames,
@@ -95,7 +106,7 @@ public class HTTPRestMeasurementsAPI {
         try {
             if (variablesNames != null && variablesNames.size() > 0) {
                 if (lasts) {
-                    measurementsByVariable = getLastVariableMeasurements(variablesNames);
+                    measurementsByVariable = getLastMeasurementsByVariable(variablesNames);
                 } else {
 
                     Date start = Date
