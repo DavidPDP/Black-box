@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.icesi.metrocali.blackbox.entities.evaluator.Formula;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.FormulasRepository;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.VariableRepository;
+import lombok.var;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
@@ -31,9 +32,37 @@ public class HTTPRestFormulasAPI {
     @Autowired
     private VariableRepository variableRepository;
 
+    @GetMapping
+    public ResponseEntity<List<Formula>> getFormulas() {
+        try {
+            List<Formula> formulas = new ArrayList<>();
+            formulas = formulasRepository.findAll();
+            return ResponseEntity.ok().body(formulas);
+        } catch (Exception e) {
+            log.error("Error at 'evaluator/variables'", e);
+            throw e;
+        }
 
-    @GetMapping("/{variable_name}")
-    public ResponseEntity<List<Formula>> retrieve(@PathVariable(name = "variable_name") String variableName,
+    }
+
+    @GetMapping("{variable_name}")
+    public ResponseEntity<List<Formula>> getFormulasByVariable(
+            @PathVariable(name = "variable_name", required = true) String variableName) {
+        try {
+            List<Formula> formulas = new ArrayList<>();
+            formulas = formulasRepository
+                    .findByVariable(variableRepository.findByNameVariable(variableName));
+            return ResponseEntity.ok().body(formulas);
+        } catch (Exception e) {
+            log.error("Error at 'evaluator/variables/" + variableName + "'", e);
+            throw e;
+        }
+
+    }
+
+    @GetMapping("/filtered")
+    public ResponseEntity<List<Formula>> getFormulasByFilter(
+            @RequestParam(name = "variable_name", required = false) String variableName,
             @RequestParam(name = "active", required = false, defaultValue = "false") boolean active)
             throws Exception {
 

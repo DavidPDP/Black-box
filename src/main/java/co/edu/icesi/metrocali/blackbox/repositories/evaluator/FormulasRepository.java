@@ -14,5 +14,7 @@ public interface FormulasRepository extends CrudRepository<Formula, Integer> {
 
     public List<Formula> findByVariable(Variable variable);
 
+    public List<Formula> findAll();
+
     public void findByEndDateIsNull();
 }
