@@ -5,8 +5,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="t_003_measurements_parameter", schema = "aviom_eval")
-@NamedQuery(name="ParameterMesurement.findAll", query="SELECT t FROM ParameterMesurement t")
-public class ParameterMeasurement {
+@NamedQuery(name="MeasurementsParameters.findAll", query="SELECT t FROM MeasurementsParameters t")
+public class MeasurementsParameters {
 
     @Id
     @Column(name="id_measurements_parameter")
@@ -22,7 +22,7 @@ public class ParameterMeasurement {
     @JoinColumn(name="id_measurement")
     private Measurement measurement;
 
-    public ParameterMeasurement() {
+    public MeasurementsParameters() {
     }
 
     public Integer getId() {
