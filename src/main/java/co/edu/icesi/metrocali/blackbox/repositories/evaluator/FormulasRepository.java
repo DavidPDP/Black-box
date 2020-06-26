@@ -17,7 +17,7 @@ public interface FormulasRepository extends CrudRepository<Formula, Integer> {
 
     public List<Formula> findAll();
 
-    public void findByEndDateIsNull();
+    public List<Formula> findByEndDateIsNull();
 
     @Query(value = "SELECT f FROM Formula f, Variable v WHERE f.variable = v AND v.isKPI = TRUE")
     public List<Formula> findByKPIs();

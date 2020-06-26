@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.icesi.metrocali.blackbox.entities.evaluator.Formula;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.FormulasRepository;
@@ -59,43 +58,38 @@ public class HTTPRestFormulasAPI {
 
     }
 
-    @GetMapping("/filtered")
-    public ResponseEntity<List<Formula>> getFormulasByFilter(
-            @RequestParam(name = "variable_name", required = false) String variableName,
-            @RequestParam(name = "active", required = false, defaultValue = "false") boolean active,
-            @RequestParam(name = "is_kpi", required = false, defaultValue = "false") boolean isKPI)
-            throws Exception {
-
-
-        List<Formula> formulas = new ArrayList<>();
+    @GetMapping("/kpis")
+    public ResponseEntity<List<Formula>> getFormulasByKPI() {
         try {
-            if (variableName != null) {
-                if (!variableRepository.existsById(variableName)) {
-                    throw new Exception("La variable: " + variableName + " no existe");
-                }
-                if (active) {
-                    formulas.add(formulasRepository.findTop1ByVariableAndEndDateIsNull(
-                            variableRepository.findByNameVariable(variableName)));
-                } else {
-                    formulas = formulasRepository
-                            .findByVariable(variableRepository.findByNameVariable(variableName));
-                }
-            } else if (active) {
-                if (isKPI) {
-                    formulasRepository.findActivesByKPIs();
-                } else {
-                    formulasRepository.findByEndDateIsNull();
-                }
-            } else if(isKPI){
-                formulasRepository.findByKPIs();
-            } else {
-                formulasRepository.findAll();
-            }
+            List<Formula> formulas = new ArrayList<>();
+            formulas = formulasRepository.findByKPIs();
             return ResponseEntity.ok().body(formulas);
-        } catch (
+        } catch (Exception e) {
+            log.error("Error at 'evaluator/kpis'", e);
+            throw e;
+        }
+    }
 
-        Exception e) {
-            log.error("Error at '/evaluator/formulas", e);
+    @GetMapping("/kpis/active")
+    public ResponseEntity<List<Formula>> getFormulasByKPIAndActive() {
+        try {
+            List<Formula> formulas = new ArrayList<>();
+            formulas = formulasRepository.findActivesByKPIs();
+            return ResponseEntity.ok().body(formulas);
+        } catch (Exception e) {
+            log.error("Error at 'evaluator/kpis'", e);
+            throw e;
+        }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<Formula>> getFormulasByActive() {
+        try {
+            List<Formula> formulas = new ArrayList<>();
+            formulas = formulasRepository.findByEndDateIsNull();
+            return ResponseEntity.ok().body(formulas);
+        } catch (Exception e) {
+            log.error("Error at 'evaluator/kpis'", e);
             throw e;
         }
     }
