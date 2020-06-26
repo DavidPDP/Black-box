@@ -3,8 +3,6 @@ package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -13,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "t_003_variables", schema = "aviom_eval")
-@NamedQuery(name = "Variable.findAll", query = "SELECT t FROM Variable t")
+@NamedQuery(name = "Variable.findAll", query = "SELECT t, f.expression FROM Variable t, Formula f WHERE f.variable = t")
 public class Variable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
