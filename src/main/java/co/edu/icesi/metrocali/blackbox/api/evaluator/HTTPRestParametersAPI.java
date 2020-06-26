@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import lombok.extern.log4j.Log4j2;
@@ -67,13 +68,18 @@ public class HTTPRestParametersAPI {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateParameter(@PathVariable(required = true) String parameterName,
-            @RequestBody(required = true) EvalParameter parameter) throws Exception {
+    public ResponseEntity<?> updateParameter(@RequestBody(required = true) EvalParameter parameter)
+            throws Exception {
 
         try {
+            Date currentDate = Date.from(new Timestamp(System.currentTimeMillis()).toInstant());
+            String parameterName = parameter.getName();
             if (parametersRepository.existByName(parameterName)) {
                 throw new Exception("El parámetro: " + parameter.getName() + " no existe.");
             }
+            EvalParameter oldParameter =
+                    parametersRepository.findByNameAndEnableEndIsNull(parameterName);
+            oldParameter.setEnableEnd(currentDate);
             parametersRepository.save(parameter);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
