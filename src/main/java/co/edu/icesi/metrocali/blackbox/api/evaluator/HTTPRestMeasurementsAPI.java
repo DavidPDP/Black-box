@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -48,19 +47,16 @@ public class HTTPRestMeasurementsAPI {
     @Autowired
     private MeasurementsParametersRepository parameterMeasurementRepository;
 
-    private HashMap<String, List<Measurement>> getLastMeasurementsByVariable(
-            List<String> variablesNames) throws Exception {
-        HashMap<String, List<Measurement>> measurementsByVariable = new HashMap<>();
+    private List<Measurement> getLastMeasurementsByVariable(List<String> variablesNames)
+            throws Exception {
 
-
+        List<Measurement> measurements = new ArrayList<>();
         if (variablesNames != null && variablesNames.size() > 0) {
             for (String name : variablesNames) {
-                List<Measurement> measurements =
-                        measurementRepository.findTop5ByVariableOrderByEndDateDesc(
-                                variableRepository.findByNameVariable(name));
-                measurementsByVariable.put(name, measurements);
+                measurements.addAll(measurementRepository.findTop5ByVariableOrderByEndDateDesc(
+                        variableRepository.findByNameVariable(name)));
             }
-            return measurementsByVariable;
+            return measurements;
         } else {
             throw new Exception("Se debe especificar, al menos, el nombre de una variable");
         }
@@ -81,7 +77,7 @@ public class HTTPRestMeasurementsAPI {
     }
 
     @GetMapping("/lasts")
-    public ResponseEntity<HashMap<String, List<Measurement>>> getLastMeasurements(
+    public ResponseEntity<List<Measurement>> getLastMeasurements(
             @RequestParam(required = true, value = "names") List<String> variablesNames)
             throws Exception {
 
@@ -96,17 +92,17 @@ public class HTTPRestMeasurementsAPI {
 
 
     @GetMapping
-    public ResponseEntity<HashMap<String, List<Measurement>>> getVariableMeasurements(
+    public ResponseEntity<List<Measurement>> getVariableMeasurements(
             @RequestParam(required = true, value = "names") List<String> variablesNames,
             @RequestParam(required = false, name = "s_date") Date startDate,
             @RequestParam(required = false, name = "e_date") Date endDate,
             @RequestParam(required = false, name = "lasts") boolean lasts) throws Exception {
 
-        HashMap<String, List<Measurement>> measurementsByVariable = new HashMap<>();
+        List<Measurement> measurements = new ArrayList<>();
         try {
             if (variablesNames != null && variablesNames.size() > 0) {
                 if (lasts) {
-                    measurementsByVariable = getLastMeasurementsByVariable(variablesNames);
+                    measurements = getLastMeasurementsByVariable(variablesNames);
                 } else {
 
                     Date start = Date
@@ -122,22 +118,11 @@ public class HTTPRestMeasurementsAPI {
                         end = endDate;
                     }
 
-                    List<Measurement> measurements = measurementRepository
-                            .findByVariablesAndDatesBetween(
-                                    variableRepository.findAllById(variablesNames), start, end);
-                    for (Measurement measurement : measurements) {
-                        String variableName = measurement.getVariable().getNameVariable();
-                        if (measurementsByVariable.containsKey(variableName)) {
-                            measurementsByVariable.get(variableName).add(measurement);
-                        } else {
-                            List<Measurement> toAddMeasurements = new ArrayList<>();
-                            toAddMeasurements.add(measurement);
-                            measurementsByVariable.put(measurement.getVariable().getNameVariable(),
-                                    toAddMeasurements);
-                        }
-                    }
+                    measurements.addAll(measurementRepository.findByVariablesAndDatesBetween(
+                            variableRepository.findAllById(variablesNames), start, end));
+
                 }
-                return ResponseEntity.ok().body(measurementsByVariable);
+                return ResponseEntity.ok().body(measurements);
             } else {
                 throw new Exception("Se debe especificar, al menos, el nombre de una variable.");
             }
