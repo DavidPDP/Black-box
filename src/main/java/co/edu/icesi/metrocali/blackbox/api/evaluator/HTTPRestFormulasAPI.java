@@ -58,7 +58,7 @@ public class HTTPRestFormulasAPI {
 
     }
 
-    @GetMapping("/kpis")
+    @GetMapping("/kpi")
     public ResponseEntity<List<Formula>> getFormulasByKPI() {
         try {
             List<Formula> formulas = new ArrayList<>();
@@ -70,7 +70,7 @@ public class HTTPRestFormulasAPI {
         }
     }
 
-    @GetMapping("/kpis/active")
+    @GetMapping("/kpi/active")
     public ResponseEntity<List<Formula>> getFormulasByKPIAndActive() {
         try {
             List<Formula> formulas = new ArrayList<>();
