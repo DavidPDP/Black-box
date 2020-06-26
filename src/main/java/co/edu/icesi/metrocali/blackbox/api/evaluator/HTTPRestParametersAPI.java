@@ -80,7 +80,11 @@ public class HTTPRestParametersAPI {
             EvalParameter oldParameter =
                     parametersRepository.findByNameAndEnableEndIsNull(parameterName);
             oldParameter.setEnableEnd(currentDate);
-            EvalParameter newParameter = parametersRepository.save(parameter);
+
+            EvalParameter newParameter = parameter;
+            newParameter.setEnableStart(currentDate);
+            newParameter.setEnableEnd(null);
+            newParameter = parametersRepository.save(newParameter);
             return ResponseEntity.ok().body(newParameter);
         } catch (Exception e) {
             log.error("at PUT /parameters", e);
