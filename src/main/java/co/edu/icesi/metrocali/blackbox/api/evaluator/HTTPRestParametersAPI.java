@@ -125,6 +125,7 @@ public class HTTPRestParametersAPI {
             if (parametersRepository.existsByName(parameterName)) {
                 throw new Exception("El parámetro: " + parameter.getName() + " no existe.");
             }
+            parameter.setName(parameterName);
             EvalParameter oldParameter =
                     parametersRepository.findByNameAndEnableEndIsNull(parameterName);
             oldParameter.setEnableEnd(currentDate);
