@@ -20,21 +20,44 @@ import co.edu.icesi.metrocali.blackbox.repositories.evaluator.EvalParameterRepos
 @RestController
 @RequestMapping(path = "/evaluator/parameters")
 @Log4j2
+
+
 public class HTTPRestParametersAPI {
 
     @Autowired
     private EvalParameterRepository parametersRepository;
 
     @GetMapping
-    public ResponseEntity<List<EvalParameter>> getAllParameter() {
+    public ResponseEntity<List<EvalParameter>> getAllParameter(
+            @RequestParam(required = false, name = "enable_from") Date enableStart,
+            @RequestParam(required = false, name = "enable_until") Date enableEnd) {
         try {
             List<EvalParameter> parameters = new ArrayList<>();
-            parameters = parametersRepository.findAll();
+
+            if (enableStart != null && enableEnd != null) {
+                parameters = parametersRepository
+                        .findByEnableStartGreaterThanAndEnableEndLessThan(enableStart, enableEnd);
+            } else {
+                parameters = parametersRepository.findAll();
+            }
             return ResponseEntity.ok().body(parameters);
         } catch (Exception e) {
             log.error("Error at GET /evaluator/parameters", e);
             throw e;
         }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<EvalParameter>> getActiveParameters() {
+        try {
+            List<EvalParameter> parameters = parametersRepository.findByEnableEndIsNull();
+            return ResponseEntity.ok().body(parameters);
+
+        } catch (Exception e) {
+            log.error("Error at /evaluator/active", e);
+            throw e;
+        }
+
     }
 
     @GetMapping("/{parameter_name}")
@@ -86,33 +109,6 @@ public class HTTPRestParametersAPI {
         }
     }
 
-    @GetMapping("/filtered")
-    public ResponseEntity<List<EvalParameter>> getFilteredParameters(
-            @RequestParam(required = false, name = "enable_from") Date enableStart,
-            @RequestParam(required = false, name = "enable_until") Date enableEnd,
-            @RequestParam(required = false, name = "active") boolean active) throws Exception {
-
-        try {
-            List<EvalParameter> parameters = new ArrayList<>();
-
-            if (active) {
-                parameters = parametersRepository.findByEnableEndIsNull();
-            } else if (enableStart != null && enableEnd != null) {
-                parameters = parametersRepository
-                        .findByEnableStartGreaterThanAndEnableEndLessThan(enableStart, enableEnd);
-            } else {
-                parameters = parametersRepository.findAll();
-            }
-
-            return ResponseEntity.ok().body(parameters);
-        } catch (
-
-        Exception e) {
-            log.error("Error at GET /evaluator/parameters", e);
-            throw e;
-        }
-
-    }
 
     @PutMapping("/{parameter_name}")
     public ResponseEntity<EvalParameter> updateParameter(
