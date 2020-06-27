@@ -27,7 +27,7 @@ public class HTTPRestParametersAPI {
     private EvalParameterRepository parametersRepository;
 
     @GetMapping
-    public ResponseEntity<List<EvalParameter>> getAllParameter(){
+    public ResponseEntity<List<EvalParameter>> getAllParameter() {
         try {
             List<EvalParameter> parameters = new ArrayList<>();
             parameters = parametersRepository.findAll();
@@ -115,13 +115,13 @@ public class HTTPRestParametersAPI {
 
     }
 
-    @PutMapping
+    @PutMapping("/{parameter_name}")
     public ResponseEntity<EvalParameter> updateParameter(
+            @PathVariable(name = "parameter_name", required = true) Strign parameterName,
             @RequestBody(required = true) EvalParameter parameter) throws Exception {
 
         try {
             Date currentDate = Date.from(new Timestamp(System.currentTimeMillis()).toInstant());
-            String parameterName = parameter.getName();
             if (parametersRepository.existsByName(parameterName)) {
                 throw new Exception("El parámetro: " + parameter.getName() + " no existe.");
             }
