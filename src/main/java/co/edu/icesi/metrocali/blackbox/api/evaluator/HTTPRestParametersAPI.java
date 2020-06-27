@@ -26,20 +26,51 @@ public class HTTPRestParametersAPI {
     @Autowired
     private EvalParameterRepository parametersRepository;
 
+    @GetMapping
+    public ResponseEntity<List<EvalParameter>> getAllParameter(){
+        try {
+            List<EvalParameter> parameters = new ArrayList<>();
+            parameters = parametersRepository.findAll();
+            return ResponseEntity.ok().body(parameters);
+        } catch (Exception e) {
+            log.error("Error at GET /evaluator/parameters", e);
+            throw e;
+        }
+    }
+
+    @GetMapping("/{parameter_name}")
+    public ResponseEntity<List<EvalParameter>> getParameterByName(
+            @PathVariable(name = "parameter_name", required = true) String parameterName) {
+        try {
+            List<EvalParameter> parameters = new ArrayList<>();
+            parameters = parametersRepository.findByName(parameterName);
+            return ResponseEntity.ok().body(parameters);
+        } catch (Exception e) {
+            log.error("Error at GET /evaluator/parameters/" + parameterName, e);
+            throw e;
+        }
+
+    }
+
     @GetMapping("/{parameter_name}/filtered")
     public ResponseEntity<List<EvalParameter>> getFilteredParameter(
             @PathVariable(name = "parameter_name", required = true) String parameterName,
             @RequestParam(name = "enable_from", required = true) Date enableStart,
             @RequestParam(required = false, name = "enable_until") Date enableEnd) {
-        List<EvalParameter> parameters = new ArrayList<>();
-        if (enableStart != null && enableStart != null) {
-            parameters =
-                    parametersRepository.findByNameAndEnableStartGreaterThanAndEnableEndLessThan(
-                            parameterName, enableStart, enableEnd);
-        } else {
-            parameters = parametersRepository.findByName(parameterName);
+        try {
+            List<EvalParameter> parameters = new ArrayList<>();
+            if (enableStart != null && enableStart != null) {
+                parameters = parametersRepository
+                        .findByNameAndEnableStartGreaterThanAndEnableEndLessThan(parameterName,
+                                enableStart, enableEnd);
+            } else {
+                parameters = parametersRepository.findByName(parameterName);
+            }
+            return ResponseEntity.ok().body(parameters);
+        } catch (Exception e) {
+            log.error("Error at GET /evaluator/parameters/" + parameterName + "/filtered", e);
+            throw e;
         }
-        return ResponseEntity.ok().body(parameters);
     }
 
     @GetMapping("/{parameter_name}/active")
@@ -51,7 +82,7 @@ public class HTTPRestParametersAPI {
 
             return ResponseEntity.ok().body(parameter);
         } catch (Exception e) {
-            log.error("Error at GET /parameters/" + parameterName + "/active", e);
+            log.error("Error at GET /evaluator/parameters/" + parameterName + "/active", e);
             throw e;
         }
     }
@@ -78,7 +109,7 @@ public class HTTPRestParametersAPI {
         } catch (
 
         Exception e) {
-            log.error("Error at GET /parameters", e);
+            log.error("Error at GET /evaluator/parameters", e);
             throw e;
         }
 
@@ -104,7 +135,7 @@ public class HTTPRestParametersAPI {
             newParameter = parametersRepository.save(newParameter);
             return ResponseEntity.ok().body(newParameter);
         } catch (Exception e) {
-            log.error("at PUT /parameters", e);
+            log.error("at PUT /evaluator/parameters", e);
             throw e;
         }
     }
