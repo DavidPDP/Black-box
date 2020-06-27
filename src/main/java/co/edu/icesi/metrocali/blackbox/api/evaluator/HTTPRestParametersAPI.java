@@ -3,6 +3,7 @@ package co.edu.icesi.metrocali.blackbox.api.evaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,37 +26,54 @@ public class HTTPRestParametersAPI {
     @Autowired
     private EvalParameterRepository parametersRepository;
 
-    @GetMapping
-    public ResponseEntity<List<EvalParameter>> getParameters(
-            @RequestParam(required = false, name = "name") String name,
+    @GetMapping("/{parameter_name}/filtered")
+    public ResponseEntity<List<EvalParameter>> getFilteredParameter(
+            @PathVariable(name = "parameter_name", required = true) String parameterName,
+            @RequestParam(name = "enable_from", required = true) Date enableStart,
+            @RequestParam(required = false, name = "enable_until") Date enableEnd) {
+        List<EvalParameter> parameters = new ArrayList<>();
+        if (enableStart != null && enableStart != null) {
+            parameters =
+                    parametersRepository.findByNameAndEnableStartGreaterThanAndEnableEndLessThan(
+                            parameterName, enableStart, enableEnd);
+        } else {
+            parameters = parametersRepository.findByName(parameterName);
+        }
+        return ResponseEntity.ok().body(parameters);
+    }
+
+    @GetMapping("/{parameter_name}/active")
+    public ResponseEntity<EvalParameter> getActiveParameter(
+            @PathVariable(name = "parameter_name", required = true) String parameterName) {
+        try {
+            EvalParameter parameter =
+                    parametersRepository.findByNameAndEnableEndIsNull(parameterName);
+
+            return ResponseEntity.ok().body(parameter);
+        } catch (Exception e) {
+            log.error("Error at GET /parameters/" + parameterName + "/active", e);
+            throw e;
+        }
+    }
+
+    @GetMapping("/filtered")
+    public ResponseEntity<List<EvalParameter>> getFilteredParameters(
             @RequestParam(required = false, name = "enable_from") Date enableStart,
             @RequestParam(required = false, name = "enable_until") Date enableEnd,
             @RequestParam(required = false, name = "active") boolean active) throws Exception {
 
         try {
             List<EvalParameter> parameters = new ArrayList<>();
-            if (name != null && !name.isEmpty()) {
-                if (active) {
-                    parameters.add(parametersRepository.findByNameAndEnableEndIsNull(name));
-                } else if (enableStart != null && enableStart != null) {
-                    parameters = parametersRepository
-                            .findByNameAndEnableStartGreaterThanAndEnableEndLessThan(name,
-                                    enableStart, enableEnd);
-                } else {
-                    parameters = parametersRepository.findByName(name);
-                }
 
+            if (active) {
+                parameters = parametersRepository.findByEnableEndIsNull();
+            } else if (enableStart != null && enableEnd != null) {
+                parameters = parametersRepository
+                        .findByEnableStartGreaterThanAndEnableEndLessThan(enableStart, enableEnd);
             } else {
-                if (active) {
-                    parameters = parametersRepository.findByEnableEndIsNull();
-                } else if (enableStart != null && enableEnd != null) {
-                    parameters =
-                            parametersRepository.findByEnableStartGreaterThanAndEnableEndLessThan(
-                                    enableStart, enableEnd);
-                } else {
-                    parameters = parametersRepository.findAll();
-                }
+                parameters = parametersRepository.findAll();
             }
+
             return ResponseEntity.ok().body(parameters);
         } catch (
 
