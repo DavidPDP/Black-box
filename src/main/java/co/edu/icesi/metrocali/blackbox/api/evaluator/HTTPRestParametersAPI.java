@@ -129,8 +129,6 @@ public class HTTPRestParametersAPI {
             }
 
             Date enableStart = parameter.getEnableStart();
-            double value = parameter.getValue();
-            oldParameter.setValue(value);
             if (enableStart != null) {
                 oldParameter.setEnableEnd(enableStart);
             } else {
