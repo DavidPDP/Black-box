@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import lombok.extern.log4j.Log4j2;
@@ -117,23 +116,28 @@ public class HTTPRestParametersAPI {
 
     @PutMapping("/{parameter_name}")
     public ResponseEntity<EvalParameter> updateParameter(
-            @PathVariable(name = "parameter_name", required = true) Strign parameterName,
+            @PathVariable(name = "parameter_name", required = true) String parameterName,
             @RequestBody(required = true) EvalParameter parameter) throws Exception {
 
         try {
-            Date currentDate = Date.from(new Timestamp(System.currentTimeMillis()).toInstant());
-            if (parametersRepository.existsByName(parameterName)) {
-                throw new Exception("El parámetro: " + parameter.getName() + " no existe.");
-            }
             parameter.setName(parameterName);
+
             EvalParameter oldParameter =
                     parametersRepository.findByNameAndEnableEndIsNull(parameterName);
-            oldParameter.setEnableEnd(currentDate);
+            if (oldParameter == null) {
+                throw new Exception("El parámetro: " + parameterName + " no existe.");
+            }
 
-            EvalParameter newParameter = parameter;
-            newParameter.setEnableStart(currentDate);
-            newParameter.setEnableEnd(null);
-            newParameter = parametersRepository.save(newParameter);
+            Date enableStart = parameter.getEnableStart();
+            double value = parameter.getValue();
+            oldParameter.setValue(value);
+            if (enableStart != null) {
+                oldParameter.setEnableEnd(enableStart);
+            } else {
+                throw new NullPointerException("EnableStart must not be null");
+            }
+
+            EvalParameter newParameter = parametersRepository.save(parameter);
             return ResponseEntity.ok().body(newParameter);
         } catch (Exception e) {
             log.error("at PUT /evaluator/parameters", e);
