@@ -58,6 +58,17 @@ public class HTTPRestFormulasAPI {
 
     }
 
+    @GetMapping("/{variable_name}/active")
+    public ResponseEntity<Formula> getActiveFormulaByVariable(
+            @PathVariable(name = "variable_name") String variableName) {
+        try {
+            return ResponseEntity.ok().body(formulasRepository.findActiveByVariable(variableName));
+        } catch (Exception e) {
+            log.error("Error at 'evaluator/variables/" + variableName + "/active'", e);
+            throw e;
+        }
+    }
+
     @GetMapping("/kpi")
     public ResponseEntity<List<Formula>> getFormulasByKPI() {
         try {
