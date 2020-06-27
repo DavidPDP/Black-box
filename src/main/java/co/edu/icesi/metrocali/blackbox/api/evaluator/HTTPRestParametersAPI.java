@@ -127,6 +127,7 @@ public class HTTPRestParametersAPI {
             Date enableStart = parameter.getEnableStart();
             if (enableStart != null) {
                 oldParameter.setEnableEnd(enableStart);
+                parameterRepository.save(oldParameter);
             } else {
                 throw new NullPointerException("EnableStart must not be null");
             }
