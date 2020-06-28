@@ -3,6 +3,7 @@ package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +25,18 @@ public class Variable implements Serializable {
 
 	@Id
 	@Column(name = "name")
+	@JsonProperty("name")
 	private String nameVariable;
 
 	@Column(name = "classification")
+	@JsonProperty("classification")
 	private String classification;
 
 	@Column(name = "description_var")
+	@JsonProperty("description")
 	private String descriptionVar;
 
 	@Column(name = "is_kpi")
+	@JsonProperty("is_kpi")
 	private Boolean isKPI;
 }
