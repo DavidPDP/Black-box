@@ -119,13 +119,13 @@ public class HTTPRestMeasurementsAPI {
                     }
 
                     measurements.addAll(measurementRepository.findByVariablesAndDatesBetween(
-                            variableRepository.findAllById(variablesNames), start, end));
+                            variablesNames, start, end));
 
                 }
                 return ResponseEntity.ok().body(measurements);
             } else {
                 throw new Exception("Se debe especificar, al menos, el nombre de una variable.");
-            }
+            }   
         } catch (Exception e) {
             log.error("error on getting last parameters", e);
             throw e;
