@@ -128,8 +128,11 @@ public class HTTPRestFormulasAPI {
             @RequestBody Formula formula) {
         try {
             Formula oldFormula = formulasRepository.findActiveByVariable(variableName);
+            oldFormula.setStartDate(formula.getStartDate());
+            oldFormula.setExpression(formula.getExpression());
+            oldFormula.setVariable(formula.getVariable());
             oldFormula.setEndDate(formula.getEndDate());
-            Formula newFormula = formulasRepository.save(formula);
+            Formula newFormula = formulasRepository.save(oldFormula);
             return ResponseEntity.ok().body(newFormula);
         } catch (Exception e) {
             log.error("Error at POST '/evaluator/formulas' ", e);
