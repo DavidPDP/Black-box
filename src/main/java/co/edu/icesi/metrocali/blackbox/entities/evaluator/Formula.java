@@ -2,6 +2,7 @@ package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,17 +27,21 @@ public class Formula implements Serializable {
 	@Column(name="id_formula")
 	//TODO: Must be a sequence.
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@JsonProperty("id")
 	private Integer idFormula;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="end_date")
+	@JsonProperty("end_date")
 	private Date endDate;
 
-    @Column(name="formula_expression")
+	@Column(name="formula_expression")
+	@JsonProperty("formula_expression")
 	private String expression;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="start_date")
+	@JsonProperty("start_date")
 	private Date startDate;
 
 

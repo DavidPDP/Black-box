@@ -3,6 +3,7 @@ package co.edu.icesi.metrocali.blackbox.entities.evaluator;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,18 +28,25 @@ public class EvalParameter implements Serializable {
 	@Column(name="id_parameter")
 	//TODO: Must be a sequence.
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@JsonProperty("id")
 	private Integer idParameter;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="enable_end")
+	@JsonProperty("enable_end")
 	private Date enableEnd;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="enable_start")
+	@JsonProperty("enable_start")
 	private Date enableStart;
+
 	@Column(name="name")
+	@JsonProperty("name")
 	private String name;
+
 	@Column(name="value")
+	@JsonProperty("value")
 	private double value;
 
 
