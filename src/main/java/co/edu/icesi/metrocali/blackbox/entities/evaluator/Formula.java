@@ -48,6 +48,7 @@ public class Formula implements Serializable {
 	//bi-directional many-to-one association to T003Variable
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="variable_name")
+	@JsonProperty("variable")
 	private Variable variable;
 
 }
