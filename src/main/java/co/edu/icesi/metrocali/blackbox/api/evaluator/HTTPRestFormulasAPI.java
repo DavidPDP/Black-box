@@ -11,10 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.icesi.metrocali.blackbox.entities.evaluator.Formula;
+import co.edu.icesi.metrocali.blackbox.entities.evaluator.Variable;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.FormulasRepository;
 import co.edu.icesi.metrocali.blackbox.repositories.evaluator.VariableRepository;
 import lombok.extern.log4j.Log4j2;
@@ -105,18 +107,28 @@ public class HTTPRestFormulasAPI {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Formula> saveFormula(@RequestBody Formula formula) {
+    @PostMapping("/{variable_name}")
+    public ResponseEntity<Formula> saveFormula(
+            @PathVariable(name = "variable_name", required = true) String variableName,
+            @RequestBody Formula formula) {
         try {
-            Formula lastFormula =
-                    formulasRepository.findTop1ByVariableAndEndDateIsNull(formula.getVariable());
-            Date currentDate =
-                    Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
-            lastFormula.setEndDate(currentDate);
+            Variable variable = variableRepository.findByNameVariable(variableName);
+            formula.setVariable(variable);
+            Formula newFormula = formulasRepository.save(formula);
+            return ResponseEntity.ok().body(newFormula);
+        } catch (Exception e) {
+            log.error("Error at POST '/evaluator/formulas' ", e);
+            throw e;
+        }
+    }
 
-            formula.setStartDate(currentDate);
-            formula.setEndDate(null);
-
+    @PutMapping("/{variable_name}")
+    public ResponseEntity<Formula> updateFormula(
+            @PathVariable(name = "variable_name", required = true) String variableName,
+            @RequestBody Formula formula) {
+        try {
+            Formula oldFormula = formulasRepository.findActiveByVariable(variableName);
+            oldFormula.setEndDate(formula.getEndDate());
             Formula newFormula = formulasRepository.save(formula);
             return ResponseEntity.ok().body(newFormula);
         } catch (Exception e) {
