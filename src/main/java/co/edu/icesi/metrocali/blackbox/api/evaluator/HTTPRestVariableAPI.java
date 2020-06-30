@@ -3,6 +3,7 @@ package co.edu.icesi.metrocali.blackbox.api.evaluator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,7 +57,7 @@ public class HTTPRestVariableAPI {
     }
 
     @GetMapping("/{variable_name}")
-    public ResponseEntity<Variable> getVariable(String name) {
+    public ResponseEntity<Variable> getVariable(@PathVariable("variable_name") String name) {
         try {
             return ResponseEntity.ok().body(variableRepository.findByNameVariable(name));
         } catch (Exception e) {
