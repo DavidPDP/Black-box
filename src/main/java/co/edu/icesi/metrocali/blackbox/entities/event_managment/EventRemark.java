@@ -37,7 +37,8 @@ public class EventRemark {
 	@Column(name="content")
 	private String content;
 
-	@Column(name="creation")
+	@Generated(GenerationTime.ALWAYS)
+	@Column(name="creation", insertable=false, updatable=false)
 	private Timestamp creation;
 
 	@ManyToOne

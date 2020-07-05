@@ -57,4 +57,15 @@ public class HTTPRestUsersTrackAPI {
 		
 	}
 	
+	@PostMapping("/many")
+	public ResponseEntity<List<UserTrack>> save(
+		@RequestBody @NonNull List<UserTrack> userTrack) {
+		
+		List<UserTrack> persistedUserTracks = 
+				usersTrackRepository.saveAll(userTrack);
+		
+		return ResponseEntity.ok(persistedUserTracks);
+		
+	}
+	
 }

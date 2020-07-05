@@ -37,7 +37,7 @@ public class HTTPRestStatesAPI {
 	public ResponseEntity<List<State>> retrieveAll(){
 		
 		List<State> states = statesRepository.findAll();
-				
+		
 		if(states != null && !states.isEmpty()) {
 			return ResponseEntity.ok(states);
 		}else {

@@ -50,7 +50,7 @@ public class EventTrack {
 
 	@OneToMany(mappedBy="eventTrack", cascade= CascadeType.ALL)
 	@JsonManagedReference("event_track-event_remark")
-	private List<EventRemark> eventRemarks;
+	private List<EventRemark> eventsRemarks;
 	
 	@ManyToOne
 	@JoinColumn(name="manager")
