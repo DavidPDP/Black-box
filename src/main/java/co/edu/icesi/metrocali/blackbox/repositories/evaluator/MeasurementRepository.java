@@ -25,7 +25,7 @@ public interface MeasurementRepository extends CrudRepository<Measurement, Integ
 
         public List<Measurement> findByVariable(Variable variable);
 
-        @Query("select m from Measurement m where m.variable.nameVariable in :names and m.startDate >= :s_date and m.endDate <= :e_date")
+        @Query("select m from Measurement m where m.variable.nameVariable in :names and m.startDate >= :s_date and m.endDate <= :e_date order by endDate desc")
         public List<Measurement> findByVariablesAndDatesBetween(
                         @Param("names") List<String> variableNames, @Param("s_date") Date start,
                         @Param("e_date") Date end);
