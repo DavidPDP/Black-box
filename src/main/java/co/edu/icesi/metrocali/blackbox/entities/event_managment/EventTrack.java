@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -44,8 +45,8 @@ public class EventTrack {
 	@Column(name="priority")
 	private Integer priority;
 
-	@Generated(GenerationTime.ALWAYS)
-	@Column(name="start_time", insertable=false, updatable=false)
+	@CreationTimestamp
+	@Column(name="start_time")
 	private Timestamp startTime;
 
 	@OneToMany(mappedBy="eventTrack", cascade= CascadeType.ALL)

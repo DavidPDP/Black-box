@@ -14,11 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import co.edu.icesi.metrocali.blackbox.entities.policies.Role;
 import co.edu.icesi.metrocali.blackbox.entities.policies.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,8 +36,8 @@ public class UserTrack {
 	@Column(name="end_time")
 	private Timestamp endTime;
 
-	@Generated(GenerationTime.ALWAYS)
-	@Column(name="start_time", insertable=false, updatable=false)
+	@CreationTimestamp
+	@Column(name="start_time")
 	private Timestamp startTime;
 
 	@OneToMany(mappedBy="usersTrack", cascade=CascadeType.ALL)
@@ -51,5 +51,9 @@ public class UserTrack {
 	@ManyToOne
 	@JoinColumn(name="state")
 	private State state;
+	
+	@ManyToOne
+	@JoinColumn(name="role")
+	private Role role;
 
 }

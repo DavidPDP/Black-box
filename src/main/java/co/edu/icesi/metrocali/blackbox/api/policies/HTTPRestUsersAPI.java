@@ -72,11 +72,11 @@ public class HTTPRestUsersAPI {
 		
 	}
 	
-	@GetMapping("/controllers/online")
-	public ResponseEntity<List<User>> retrieveOnlineControllers(){
+	@GetMapping("/online")
+	public ResponseEntity<List<User>> retrieveOnline(){
 		
 		List<User> controllers = 
-				usersRepository.findAllOnlineControllers();
+				usersRepository.findAllOnline();
 		
 		if(controllers != null && !controllers.isEmpty()) {
 			return ResponseEntity.ok(controllers);
