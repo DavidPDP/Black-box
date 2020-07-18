@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import co.edu.icesi.metrocali.blackbox.entities.policies.User;
@@ -30,6 +32,7 @@ public class UserRemark {
 	@Column(name="content")
 	private String content;
 
+	@CreationTimestamp
 	@Column(name="creation")
 	private Timestamp creation;
 

@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -37,8 +38,8 @@ public class EventRemark {
 	@Column(name="content")
 	private String content;
 
-	@Generated(GenerationTime.ALWAYS)
-	@Column(name="creation", insertable=false, updatable=false)
+	@CreationTimestamp
+	@Column(name="creation")
 	private Timestamp creation;
 
 	@ManyToOne

@@ -36,9 +36,9 @@ public interface UsersRepository extends CrudRepository<User, Integer> {
 			"join policies.t_002_users u on t.owner = u.id " + 
 			"join policies.t_002_users_roles ur on u.id = ur.owner " + 
 			"join policies.t_002_roles r on ur.role = r.id " + 
-			"where s.name <> 'Offline' and r.name = 'Controller'", 
+			"where s.name <> 'Offline'", 
 			nativeQuery = true)
-	public List<User> findAllOnlineControllers();
+	public List<User> findAllOnline();
 	//---------------------------------------------	
 	
 }

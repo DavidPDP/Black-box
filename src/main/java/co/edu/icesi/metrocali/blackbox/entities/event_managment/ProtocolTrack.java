@@ -11,8 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -32,8 +31,8 @@ public class ProtocolTrack {
 	@Column(name="done")
 	private Boolean done;
 	
-	@Generated(GenerationTime.ALWAYS)
-	@Column(name="creation", insertable=false, updatable=false)
+	@CreationTimestamp
+	@Column(name="creation")
 	private Timestamp creation;
 	
 	@ManyToOne

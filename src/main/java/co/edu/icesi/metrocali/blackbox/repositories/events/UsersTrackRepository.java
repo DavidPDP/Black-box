@@ -14,7 +14,7 @@ public interface UsersTrackRepository extends CrudRepository<UserTrack, Long>{
 
 	public <S extends UserTrack> List<S> saveAll(Iterable<S> entities);
 	
-	@Query(value="select t.id, t.state, t.owner, t.start_time, t.end_time "
+	@Query(value="select t.id, t.state, t.owner, t.role, t.start_time, t.end_time "
 			+ "from event_managment.t_002_users_track t "
 			+ "join policies.t_002_users u on t.owner = u.id "
 			+ "where u.account_name = :account_name and "
